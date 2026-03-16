@@ -16,8 +16,17 @@ _SSE_TIMEOUT = 120.0
 _SSE_EVENT_TIMEOUT = 30.0
 
 
+def _headers() -> dict[str, str]:
+    """Build request headers, including Bearer auth when COCKPIT_API_KEY is set."""
+    headers: dict[str, str] = {}
+    api_key = os.environ.get("COCKPIT_API_KEY")
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    return headers
+
+
 def _client(timeout: float = _TIMEOUT) -> httpx.AsyncClient:
-    return httpx.AsyncClient(base_url=BASE_URL, timeout=timeout)
+    return httpx.AsyncClient(base_url=BASE_URL, timeout=timeout, headers=_headers())
 
 
 async def get(path: str, **params: str | int) -> dict:
@@ -56,12 +65,24 @@ async def delete(path: str) -> dict:
         return r.json()
 
 
-async def post_sse(path: str, body: dict | None = None) -> str:
-    """POST to an SSE endpoint, collect all text_delta/output events into a string."""
+async def post_sse(
+    path: str,
+    body: dict | None = None,
+    *,
+    max_chunks: int = 1000,
+    max_total_bytes: int = 1_048_576,
+) -> str:
+    """POST to an SSE endpoint, collect all text_delta/output events into a string.
+
+    Accumulation stops when *max_chunks* events or *max_total_bytes* of text
+    have been collected, whichever comes first.
+    """
     import json as jsonlib
 
     logger.debug("POST SSE %s body=%s", path, body)
     chunks: list[str] = []
+    total_bytes = 0
+    truncated = False
     current_event_type: str | None = None
 
     async with _client(timeout=_SSE_TIMEOUT) as c:
@@ -97,12 +118,23 @@ async def post_sse(path: str, body: dict | None = None) -> str:
                         continue
 
                     # Collect text content from various SSE event shapes
+                    text: str | None = None
                     if "content" in event:
-                        chunks.append(event["content"])
+                        text = event["content"]
                     elif "text" in event:
-                        chunks.append(event["text"])
+                        text = event["text"]
 
-    return "".join(chunks)
+                    if text is not None:
+                        chunks.append(text)
+                        total_bytes += len(text.encode())
+                        if len(chunks) >= max_chunks or total_bytes >= max_total_bytes:
+                            truncated = True
+                            break
+
+    result = "".join(chunks)
+    if truncated:
+        result += "\n\n[truncated — response exceeded accumulation limits]"
+    return result
 
 
 async def _iter_lines_with_timeout(
