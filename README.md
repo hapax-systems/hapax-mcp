@@ -26,7 +26,20 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-## Related
+## Part of the Hapax Research Project
 
-- [hapax-council](https://github.com/ryanklee/hapax-council) — Personal operating environment (cockpit API on :8051)
-- [hapax-officium](https://github.com/ryanklee/hapax-officium) — Management decision support (cockpit API on :8050)
+This MCP server is **infrastructure** for a research project **operationalizing Clark & Brennan's (1991) conversational grounding theory in a production voice AI**. It bridges the cockpit APIs to Claude Code, enabling the operator to interact with the research system via natural language.
+
+See [hapax-council](https://github.com/ryanklee/hapax-council) for the full research context.
+
+| Repository | Role |
+|-----------|------|
+| [hapax-council](https://github.com/ryanklee/hapax-council) | Primary research artifact — voice daemon, grounding system, experiment infrastructure |
+| [hapax-constitution](https://github.com/ryanklee/hapax-constitution) | Governance specification — axioms, implications, canons |
+| [hapax-officium](https://github.com/ryanklee/hapax-officium) | Supporting software — management decision support |
+| [hapax-watch](https://github.com/ryanklee/hapax-watch) | Research instrument — Wear OS biometric companion |
+| **cockpit-mcp** (this repo) | Infrastructure — MCP server for Claude Code |
+
+## License
+
+Apache 2.0 — see [LICENSE](LICENSE).
