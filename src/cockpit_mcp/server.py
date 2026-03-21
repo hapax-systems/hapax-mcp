@@ -217,7 +217,8 @@ async def profile_dimension(dimension: str) -> str:
     """Get detailed facts for a specific profile dimension.
 
     Args:
-        dimension: Profile dimension name (e.g. 'work_style', 'communication', 'technical_preferences')
+        dimension: Profile dimension name
+            (e.g. 'work_style', 'communication', 'technical_preferences')
     """
     _validate_path_segment(dimension)
     logger.debug("tool: profile_dimension dimension=%s", dimension)
@@ -415,9 +416,7 @@ async def scout_decide(
     logger.debug("tool: scout_decide component=%s decision=%s", component, decision)
     try:
         return _sanitize_response(
-            await client.post(
-                f"/scout/{component}/decide", {"decision": decision, "notes": notes}
-            )
+            await client.post(f"/scout/{component}/decide", {"decision": decision, "notes": notes})
         )
     except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
         logger.error("scout_decide failed: %s", e)
@@ -434,9 +433,7 @@ async def accommodation_confirm(accommodation_id: str) -> str:
     _validate_path_segment(accommodation_id)
     logger.debug("tool: accommodation_confirm id=%s", accommodation_id)
     try:
-        return _sanitize_response(
-            await client.post(f"/accommodations/{accommodation_id}/confirm")
-        )
+        return _sanitize_response(await client.post(f"/accommodations/{accommodation_id}/confirm"))
     except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
         logger.error("accommodation_confirm failed: %s", e)
         return _fmt_error(e)
@@ -452,9 +449,7 @@ async def accommodation_disable(accommodation_id: str) -> str:
     _validate_path_segment(accommodation_id)
     logger.debug("tool: accommodation_disable id=%s", accommodation_id)
     try:
-        return _sanitize_response(
-            await client.post(f"/accommodations/{accommodation_id}/disable")
-        )
+        return _sanitize_response(await client.post(f"/accommodations/{accommodation_id}/disable"))
     except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
         logger.error("accommodation_disable failed: %s", e)
         return _fmt_error(e)
