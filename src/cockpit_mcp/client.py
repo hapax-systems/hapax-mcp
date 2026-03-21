@@ -85,51 +85,50 @@ async def post_sse(
     truncated = False
     current_event_type: str | None = None
 
-    async with _client(timeout=_SSE_TIMEOUT) as c:
-        async with c.stream("POST", path, json=body) as r:
-            r.raise_for_status()
-            async for line in _iter_lines_with_timeout(r):
-                # SSE protocol: blank line ends an event block
-                if not line:
-                    current_event_type = None
+    async with _client(timeout=_SSE_TIMEOUT) as c, c.stream("POST", path, json=body) as r:
+        r.raise_for_status()
+        async for line in _iter_lines_with_timeout(r):
+            # SSE protocol: blank line ends an event block
+            if not line:
+                current_event_type = None
+                continue
+
+            # Track event type from `event:` lines
+            if line.startswith("event:"):
+                current_event_type = line[6:].strip()
+                if current_event_type == "done":
+                    logger.debug("SSE stream done")
+                    break
+                if current_event_type == "error":
+                    # Error data will follow on the next `data:` line
+                    pass
+                continue
+
+            # Parse data lines
+            if line.startswith("data:"):
+                raw = line[5:].strip()
+                if current_event_type == "error":
+                    logger.error("SSE error: %s", raw)
+                    return f"Error: {raw}"
+
+                try:
+                    event = jsonlib.loads(raw)
+                except (jsonlib.JSONDecodeError, ValueError):
                     continue
 
-                # Track event type from `event:` lines
-                if line.startswith("event:"):
-                    current_event_type = line[6:].strip()
-                    if current_event_type == "done":
-                        logger.debug("SSE stream done")
+                # Collect text content from various SSE event shapes
+                text: str | None = None
+                if "content" in event:
+                    text = event["content"]
+                elif "text" in event:
+                    text = event["text"]
+
+                if text is not None:
+                    chunks.append(text)
+                    total_bytes += len(text.encode())
+                    if len(chunks) >= max_chunks or total_bytes >= max_total_bytes:
+                        truncated = True
                         break
-                    if current_event_type == "error":
-                        # Error data will follow on the next `data:` line
-                        pass
-                    continue
-
-                # Parse data lines
-                if line.startswith("data:"):
-                    raw = line[5:].strip()
-                    if current_event_type == "error":
-                        logger.error("SSE error: %s", raw)
-                        return f"Error: {raw}"
-
-                    try:
-                        event = jsonlib.loads(raw)
-                    except (jsonlib.JSONDecodeError, ValueError):
-                        continue
-
-                    # Collect text content from various SSE event shapes
-                    text: str | None = None
-                    if "content" in event:
-                        text = event["content"]
-                    elif "text" in event:
-                        text = event["text"]
-
-                    if text is not None:
-                        chunks.append(text)
-                        total_bytes += len(text.encode())
-                        if len(chunks) >= max_chunks or total_bytes >= max_total_bytes:
-                            truncated = True
-                            break
 
     result = "".join(chunks)
     if truncated:
@@ -149,8 +148,6 @@ async def _iter_lines_with_timeout(
             yield line
         except StopAsyncIteration:
             break
-        except asyncio.TimeoutError:
+        except TimeoutError:
             logger.error("SSE stream timed out (no event for %.0fs)", timeout)
-            raise TimeoutError(
-                f"SSE stream stalled — no event received for {timeout}s"
-            ) from None
+            raise TimeoutError(f"SSE stream stalled — no event received for {timeout}s") from None
