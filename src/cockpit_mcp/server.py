@@ -460,6 +460,69 @@ async def accommodation_disable(accommodation_id: str) -> str:
         return _fmt_error(e)
 
 
+# ── Task management tools ──────────────────────────────────────────────────
+
+
+@mcp.tool()
+async def tasks(status: str = "") -> str:
+    """List research tasks, optionally filtered by status (pending/active/done/blocked).
+
+    Args:
+        status: Optional status filter
+    """
+    logger.debug("tool: tasks status=%s", status)
+    try:
+        url = "/tasks" + (f"?status={status}" if status else "")
+        return _sanitize_response(await client.get(url))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("tasks failed: %s", e)
+        return _fmt_error(e)
+
+
+@mcp.tool()
+async def task_create(
+    title: str, priority: str = "medium", phase: str = "", tags: str = ""
+) -> str:
+    """Create a new research task.
+
+    Args:
+        title: Task title
+        priority: Priority level (critical/high/medium/low)
+        phase: SCED experiment phase (A1/B/A2)
+        tags: Comma-separated tags
+    """
+    logger.debug("tool: task_create title=%s", title)
+    try:
+        body: dict = {"title": title, "priority": priority}
+        if phase:
+            body["phase"] = phase
+        if tags:
+            body["tags"] = [t.strip() for t in tags.split(",")]
+        return _sanitize_response(await client.post("/tasks", body))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("task_create failed: %s", e)
+        return _fmt_error(e)
+
+
+@mcp.tool()
+async def task_update(task_id: str, status: str) -> str:
+    """Update a research task's status.
+
+    Args:
+        task_id: Task ID (slug)
+        status: New status (pending/active/done/blocked)
+    """
+    _validate_path_segment(task_id)
+    logger.debug("tool: task_update id=%s status=%s", task_id, status)
+    try:
+        return _sanitize_response(
+            await client.put(f"/tasks/{task_id}/status", {"status": status})
+        )
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("task_update failed: %s", e)
+        return _fmt_error(e)
+
+
 # ── SSE-consuming tools ─────────────────────────────────────────────────────
 
 
