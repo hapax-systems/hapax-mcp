@@ -28,9 +28,7 @@ Add to `~/.claude/settings.json`:
 
 ## Part of the Hapax Research Project
 
-This MCP server is **infrastructure** for a research project **operationalizing Clark & Brennan's (1991) conversational grounding theory in a production voice AI**. It bridges the cockpit APIs to Claude Code, enabling the operator to interact with the research system via natural language.
-
-See [hapax-council](https://github.com/ryanklee/hapax-council) for the full research context.
+Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a voice AI system. Bridges cockpit APIs to Claude Code. See [hapax-council](https://github.com/ryanklee/hapax-council) for the research context.
 
 | Repository | Role |
 |-----------|------|
