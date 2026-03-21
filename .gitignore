@@ -1,3 +1,26 @@
 __pycache__/
 *.pyc
 .venv/
+
+# Secrets
+.env
+.envrc
+
+# Database
+*.db
+*.sqlite
+
+# Media
+*.wav
+*.mp3
+*.mp4
+*.png
+*.jpg
+
+# Profiles
+profiles/**/*.json
+profiles/**/*.md
+
+# Claude Code
+.claude/settings.local.json
+.playwright-mcp/
