@@ -1,1 +1,1 @@
-"""Cockpit MCP server — wraps the hapax cockpit API for Claude Code."""
+"""Hapax MCP server — wraps the hapax logos API for Claude Code."""

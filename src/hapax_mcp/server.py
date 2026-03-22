@@ -1,4 +1,4 @@
-"""Cockpit MCP server — exposes hapax cockpit API as Claude Code tools."""
+"""Hapax MCP server — exposes hapax logos API as Claude Code tools."""
 
 from __future__ import annotations
 

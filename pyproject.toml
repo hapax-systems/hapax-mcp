@@ -1,7 +1,7 @@
 [project]
 name = "hapax-mcp"
 version = "0.1.0"
-description = "MCP server wrapping the hapax cockpit API"
+description = "MCP server wrapping the hapax logos API"
 requires-python = ">=3.12"
 dependencies = [
     "mcp>=1.26",
