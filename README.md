@@ -1,14 +1,12 @@
 # hapax-mcp
 
-MCP server bridging the hapax logos API to Claude Code. Exposes 34 tools (21 read-only, 9 write, 2 streaming, 2 compound) for system health, profile management, agent control, and natural language queries.
+Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a production voice AI system. See [hapax-council](https://github.com/ryanklee/hapax-council) for the primary research artifact and experiment design.
 
-## Installation
+## Role in the research project
 
-```bash
-uv sync
-```
+The research apparatus is developed and operated through Claude Code as the primary interactive interface (Tier 1 in the three-tier agent architecture). This MCP server bridges the logos APIs (council on `:8051`, officium on `:8050`) to Claude Code via the Model Context Protocol, exposing 34 tools for system health, profile management, agent control, and natural language queries.
 
-## Usage
+## Configuration
 
 Add to `~/.claude/settings.json`:
 
@@ -26,14 +24,22 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-## Part of the Hapax Research Project
+## Tools
 
-Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a voice AI system. Bridges logos APIs to Claude Code. See [hapax-council](https://github.com/ryanklee/hapax-council) for the research context.
+**Read-only (21):** health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, cycle_mode, profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual
+
+**Write (9):** nudge_act, nudge_dismiss, cycle_mode_set, profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable
+
+**Streaming (2):** query, query_refine (SSE)
+
+**Compound (2):** `status` (health + gpu + infrastructure + cycle_mode), `daily_summary` (briefing + nudges + goals + drift)
+
+## Ecosystem
 
 | Repository | Role |
 |-----------|------|
 | [hapax-council](https://github.com/ryanklee/hapax-council) | Primary research artifact — voice daemon, grounding system, experiment infrastructure |
-| [hapax-constitution](https://github.com/ryanklee/hapax-constitution) | Governance specification — axioms, implications, canons |
+| [hapax-constitution](https://github.com/ryanklee/hapax-constitution) | Governance specification — axioms, implications, canons, precedents |
 | [hapax-officium](https://github.com/ryanklee/hapax-officium) | Supporting software — management decision support |
 | [hapax-watch](https://github.com/ryanklee/hapax-watch) | Research instrument — Wear OS biometric companion |
 | **hapax-mcp** (this repo) | Infrastructure — MCP server for Claude Code |
