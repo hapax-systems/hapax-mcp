@@ -1,4 +1,4 @@
-# cockpit-mcp
+# hapax-mcp
 
 MCP server bridging the hapax cockpit API to Claude Code. Exposes 34 tools (21 read-only, 9 write, 2 streaming, 2 compound) for system health, profile management, agent control, and natural language queries.
 
@@ -17,7 +17,7 @@ Add to `~/.claude/settings.json`:
   "mcpServers": {
     "cockpit": {
       "command": "uv",
-      "args": ["--directory", "/path/to/cockpit-mcp", "run", "cockpit-mcp"],
+      "args": ["--directory", "/path/to/hapax-mcp", "run", "hapax-mcp"],
       "env": {
         "COCKPIT_BASE_URL": "http://localhost:8051/api"
       }
@@ -36,7 +36,7 @@ Infrastructure for a research project implementing Clark & Brennan's (1991) conv
 | [hapax-constitution](https://github.com/ryanklee/hapax-constitution) | Governance specification — axioms, implications, canons |
 | [hapax-officium](https://github.com/ryanklee/hapax-officium) | Supporting software — management decision support |
 | [hapax-watch](https://github.com/ryanklee/hapax-watch) | Research instrument — Wear OS biometric companion |
-| **cockpit-mcp** (this repo) | Infrastructure — MCP server for Claude Code |
+| **hapax-mcp** (this repo) | Infrastructure — MCP server for Claude Code |
 
 ## License
 

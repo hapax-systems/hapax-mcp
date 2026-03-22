@@ -1,5 +1,5 @@
 [project]
-name = "cockpit-mcp"
+name = "hapax-mcp"
 version = "0.1.0"
 description = "MCP server wrapping the hapax cockpit API"
 requires-python = ">=3.12"
@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cockpit-mcp = "cockpit_mcp.server:main"
+hapax-mcp = "hapax_mcp.server:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -33,7 +33,7 @@ quote-style = "double"
 select = ["E", "F", "I", "UP", "B", "SIM", "TCH"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["cockpit_mcp"]
+known-first-party = ["hapax_mcp"]
 
 [tool.pyright]
 pythonVersion = "3.12"

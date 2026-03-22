@@ -8,7 +8,7 @@ Single-operator system — no auth on cockpit API.
 
 ```bash
 uv sync
-uv run cockpit-mcp          # stdio transport
+uv run hapax-mcp          # stdio transport
 ```
 
 Configure in Claude Code `~/.claude/settings.json` under `mcpServers`.
@@ -16,7 +16,7 @@ Configure in Claude Code `~/.claude/settings.json` under `mcpServers`.
 ## Project Structure
 
 ```
-src/cockpit_mcp/
+src/hapax_mcp/
   server.py      MCP server, 34 tool definitions
   client.py      HTTP client for cockpit API (get/post/put/delete/post_sse)
   __init__.py    Package init
