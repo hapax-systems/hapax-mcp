@@ -1,4 +1,4 @@
-"""HTTP client for the cockpit API."""
+"""HTTP client for the hapax cockpit API."""
 
 from __future__ import annotations
 
