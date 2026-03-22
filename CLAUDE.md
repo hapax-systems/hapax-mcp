@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-MCP server wrapping the hapax cockpit API. Bridges 34 tools from the council/officium cockpit HTTP APIs to Claude Code via the Model Context Protocol.
+MCP server wrapping the hapax logos API. Bridges 34 tools from the council/officium logos HTTP APIs to Claude Code via the Model Context Protocol.
 
-Single-operator system — no auth on cockpit API.
+Single-operator system — no auth on logos API.
 
 ## Build & Run
 
@@ -18,7 +18,7 @@ Configure in Claude Code `~/.claude/settings.json` under `mcpServers`.
 ```
 src/hapax_mcp/
   server.py      MCP server, 34 tool definitions
-  client.py      HTTP client for cockpit API (get/post/put/delete/post_sse)
+  client.py      HTTP client for logos API (get/post/put/delete/post_sse)
   __init__.py    Package init
 pyproject.toml   Project metadata, entry point
 ```
@@ -27,7 +27,9 @@ pyproject.toml   Project metadata, entry point
 
 | Env Var | Default | Purpose |
 |---------|---------|----------|
-| `COCKPIT_BASE_URL` | `http://localhost:8051/api` | Cockpit API base URL |
+| `LOGOS_BASE_URL` | `http://localhost:8051/api` | Logos API base URL |
+
+`COCKPIT_BASE_URL` and `COCKPIT_API_KEY` are accepted as fallbacks for backward compatibility.
 
 HTTP timeout: 15 seconds.
 

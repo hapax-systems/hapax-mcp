@@ -1,4 +1,4 @@
-"""HTTP client for the hapax cockpit API."""
+"""HTTP client for the hapax logos API."""
 
 from __future__ import annotations
 
@@ -10,16 +10,18 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-BASE_URL = os.environ.get("COCKPIT_BASE_URL", "http://localhost:8051/api")
+BASE_URL = os.environ.get(
+    "LOGOS_BASE_URL", os.environ.get("COCKPIT_BASE_URL", "http://localhost:8051/api")
+)
 _TIMEOUT = 15.0
 _SSE_TIMEOUT = 120.0
 _SSE_EVENT_TIMEOUT = 30.0
 
 
 def _headers() -> dict[str, str]:
-    """Build request headers, including Bearer auth when COCKPIT_API_KEY is set."""
+    """Build request headers, including Bearer auth when LOGOS_API_KEY is set."""
     headers: dict[str, str] = {}
-    api_key = os.environ.get("COCKPIT_API_KEY")
+    api_key = os.environ.get("LOGOS_API_KEY", os.environ.get("COCKPIT_API_KEY"))
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
     return headers

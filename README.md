@@ -1,6 +1,6 @@
 # hapax-mcp
 
-MCP server bridging the hapax cockpit API to Claude Code. Exposes 34 tools (21 read-only, 9 write, 2 streaming, 2 compound) for system health, profile management, agent control, and natural language queries.
+MCP server bridging the hapax logos API to Claude Code. Exposes 34 tools (21 read-only, 9 write, 2 streaming, 2 compound) for system health, profile management, agent control, and natural language queries.
 
 ## Installation
 
@@ -15,11 +15,11 @@ Add to `~/.claude/settings.json`:
 ```json
 {
   "mcpServers": {
-    "cockpit": {
+    "hapax": {
       "command": "uv",
       "args": ["--directory", "/path/to/hapax-mcp", "run", "hapax-mcp"],
       "env": {
-        "COCKPIT_BASE_URL": "http://localhost:8051/api"
+        "LOGOS_BASE_URL": "http://localhost:8051/api"
       }
     }
   }
@@ -28,7 +28,7 @@ Add to `~/.claude/settings.json`:
 
 ## Part of the Hapax Research Project
 
-Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a voice AI system. Bridges cockpit APIs to Claude Code. See [hapax-council](https://github.com/ryanklee/hapax-council) for the research context.
+Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a voice AI system. Bridges logos APIs to Claude Code. See [hapax-council](https://github.com/ryanklee/hapax-council) for the research context.
 
 | Repository | Role |
 |-----------|------|
