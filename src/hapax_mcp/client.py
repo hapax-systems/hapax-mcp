@@ -7,6 +7,7 @@ import logging
 import os
 
 import httpx
+from pydantic import BaseModel, TypeAdapter
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +39,12 @@ async def get(path: str, **params: str | int) -> dict:
         r = await c.get(path, params=params or None)
         r.raise_for_status()
         return r.json()
+
+
+async def get_validated[T: BaseModel](path: str, model: type[T], **params: str | int) -> T:
+    """GET a JSON endpoint and validate response against a Pydantic model."""
+    data = await get(path, **params)
+    return TypeAdapter(model).validate_python(data)
 
 
 async def post(path: str, body: dict | None = None) -> dict:
