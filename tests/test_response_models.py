@@ -125,7 +125,7 @@ class TestProfileDimensionResponse:
         data = {"name": "identity", "summary": "...", "facts": [{"key": "role", "value": "eng"}]}
         m = ProfileDimensionResponse.model_validate(data)
         assert m.name == "identity"
-        assert len(m.facts) == 1
+        assert m.facts is not None and len(m.facts) == 1
 
     def test_valid_without_facts(self):
         data = {"name": "identity"}
