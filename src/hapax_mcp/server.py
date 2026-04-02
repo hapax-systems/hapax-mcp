@@ -474,6 +474,75 @@ async def accommodation_disable(accommodation_id: str) -> str:
         return _fmt_error(e)
 
 
+# ── Chronicle tools ────────────────────────────────────────────────────────
+
+
+@mcp.tool()
+async def chronicle(
+    since: str = "-1h",
+    until: str | None = None,
+    source: str | None = None,
+    event_type: str | None = None,
+    trace_id: str | None = None,
+    limit: int = 500,
+) -> str:
+    """Query the unified system chronicle (12-hour window).
+
+    Returns all system events: engine rules, stimmung changes,
+    visual techniques, perception signals.
+
+    Args:
+        since: Start time, relative (-1h, -30m) or ISO 8601
+        until: End time, same format. Default: now
+        source: Filter: engine, stimmung, visual, perception, voice
+        event_type: Filter: rule.matched, stance.changed, etc.
+        trace_id: Follow a causal chain (32-hex OTel trace ID)
+        limit: Max events (1-5000, default 500)
+    """
+    logger.debug("tool: chronicle since=%s source=%s", since, source)
+    try:
+        params: dict[str, str | int] = {"since": since, "limit": limit}
+        if until:
+            params["until"] = until
+        if source:
+            params["source"] = source
+        if event_type:
+            params["event_type"] = event_type
+        if trace_id:
+            params["trace_id"] = trace_id
+        return _sanitize_response(await client.get("/chronicle", **params))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("chronicle failed: %s", e)
+        return _fmt_error(e)
+
+
+@mcp.tool()
+async def chronicle_narrate(
+    question: str,
+    since: str = "-1h",
+    source: str | None = None,
+) -> str:
+    """Ask what happened in the system (chronicle + LLM synthesis).
+
+    Examples: "What manifested on the reverie visual surface?",
+    "Why did stimmung go cautious?"
+
+    Args:
+        question: Natural language question about system behavior
+        since: How far back to look. Default: -1h
+        source: Focus on one system (optional)
+    """
+    logger.debug("tool: chronicle_narrate question=%s", question[:80])
+    try:
+        params: dict[str, str] = {"question": question, "since": since}
+        if source:
+            params["source"] = source
+        return _sanitize_response(await client.get("/chronicle/narrate", **params))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException, TimeoutError) as e:
+        logger.error("chronicle_narrate failed: %s", e)
+        return _fmt_error(e)
+
+
 # ── SSE-consuming tools ─────────────────────────────────────────────────────
 
 
