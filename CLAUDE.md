@@ -60,3 +60,9 @@ HTTP timeout: 15 seconds.
 - httpx >= 0.28
 - pydantic >= 2.0
 - Python 3.12+
+
+## Known cross-repo inconsistency
+
+The `cycle_mode` tool name (and `cycle_mode_set`, `/cycle-mode` endpoint) reflects this repo's current `server.py`. The workspace has otherwise migrated to `working_mode` (research/rnd) — this repo is the last holdout. Renaming requires a coordinated change here + in council's logos-api routes + in any Claude Code settings.json that pins the tool name. Out of scope for CLAUDE.md hygiene.
+
+> Subject to the workspace CLAUDE.md rotation policy: `hapax-council/docs/superpowers/specs/2026-04-13-claude-md-excellence-design.md`.
