@@ -360,9 +360,7 @@ async def working_mode_set(mode: Literal["research", "rnd", "fortress"]) -> str:
         mode: Target mode — 'research', 'rnd', or 'fortress'
     """
     if mode not in ("research", "rnd", "fortress"):
-        raise ValueError(
-            f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'."
-        )
+        raise ValueError(f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'.")
     logger.debug("tool: working_mode_set mode=%s", mode)
     try:
         return _sanitize_response(await client.put("/working-mode", {"mode": mode}))
