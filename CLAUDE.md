@@ -46,15 +46,17 @@ HTTP timeout: 15 seconds.
 
 ## Tools
 
-**Read-only (21):** health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, cycle_mode, profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual
+**Read-only (22):** health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, working_mode (canonical), cycle_mode (deprecated alias), profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual
 
 **Chronicle (2):** chronicle (query with since/until/source/event_type/trace_id/limit filters), chronicle_narrate (LLM-synthesized chronicle summary)
 
-**Write (9):** nudge_act, nudge_dismiss, cycle_mode_set, profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable
+**Write (10):** nudge_act, nudge_dismiss, working_mode_set (canonical), cycle_mode_set (deprecated alias), profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable
 
 **Streaming (2):** query, query_refine — use SSE (collect text_delta/output events)
 
-**Compound (2):** `status` = health + gpu + infrastructure + cycle_mode. `daily_summary` = briefing + nudges + goals + drift.
+**Compound (2):** `status` = health + gpu + infrastructure + working_mode. `daily_summary` = briefing + nudges + goals + drift.
+
+Mode values: `working_mode_set` and `cycle_mode_set` both accept `'research'`, `'rnd'`, or `'fortress'`. The legacy `'dev'` / `'prod'` values were never updated in MCP after the council `/cycle-mode` endpoint switched to `/working-mode` semantics — passing them was failing 422 server-side. Both tools now route to `/working-mode` under the hood.
 
 ## Gotchas
 
@@ -70,9 +72,5 @@ HTTP timeout: 15 seconds.
 - httpx >= 0.28
 - pydantic >= 2.0
 - Python 3.12+
-
-## Known cross-repo inconsistency
-
-The `cycle_mode` tool name (and `cycle_mode_set`, `/cycle-mode` endpoint) reflects this repo's current `server.py`. The workspace has otherwise migrated to `working_mode` (research/rnd) — this repo is the last holdout. Renaming requires a coordinated change here + in council's logos-api routes + in any Claude Code settings.json that pins the tool name. Out of scope for CLAUDE.md hygiene.
 
 > Subject to the workspace CLAUDE.md rotation policy: `hapax-council/docs/superpowers/specs/2026-04-13-claude-md-excellence-design.md`.
