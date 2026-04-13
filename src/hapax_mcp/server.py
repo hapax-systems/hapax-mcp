@@ -192,11 +192,27 @@ async def infrastructure() -> str:
 
 
 @mcp.tool()
-async def cycle_mode() -> str:
-    """Get current cycle mode (dev or prod) and when it was last switched."""
-    logger.debug("tool: cycle_mode")
+async def working_mode() -> str:
+    """Get current working mode (research/rnd/fortress) and when it was last switched."""
+    logger.debug("tool: working_mode")
     try:
-        return _sanitize_response(await client.get("/cycle-mode"))
+        return _sanitize_response(await client.get("/working-mode"))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("working_mode failed: %s", e)
+        return _fmt_error(e)
+
+
+@mcp.tool()
+async def cycle_mode() -> str:
+    """DEPRECATED alias for working_mode. Get current working mode and switched_at.
+
+    The workspace migrated from cycle_mode (dev/prod) to working_mode
+    (research/rnd/fortress). This alias preserves the old tool name for
+    callers that haven't migrated yet. New code should use working_mode.
+    """
+    logger.debug("tool: cycle_mode (deprecated alias for working_mode)")
+    try:
+        return _sanitize_response(await client.get("/working-mode"))
     except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
         logger.error("cycle_mode failed: %s", e)
         return _fmt_error(e)
@@ -337,17 +353,47 @@ async def nudge_dismiss(source_id: str) -> str:
 
 
 @mcp.tool()
-async def cycle_mode_set(mode: Literal["dev", "prod"]) -> str:
-    """Switch cycle mode between dev and prod.
+async def working_mode_set(mode: Literal["research", "rnd", "fortress"]) -> str:
+    """Switch working mode between research, rnd, and fortress.
 
     Args:
-        mode: Target mode — 'dev' or 'prod'
+        mode: Target mode — 'research', 'rnd', or 'fortress'
     """
-    if mode not in ("dev", "prod"):
-        raise ValueError(f"Invalid mode: {mode!r}. Must be 'dev' or 'prod'.")
-    logger.debug("tool: cycle_mode_set mode=%s", mode)
+    if mode not in ("research", "rnd", "fortress"):
+        raise ValueError(
+            f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'."
+        )
+    logger.debug("tool: working_mode_set mode=%s", mode)
     try:
-        return _sanitize_response(await client.put("/cycle-mode", {"mode": mode}))
+        return _sanitize_response(await client.put("/working-mode", {"mode": mode}))
+    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
+        logger.error("working_mode_set failed: %s", e)
+        return _fmt_error(e)
+
+
+@mcp.tool()
+async def cycle_mode_set(mode: Literal["research", "rnd", "fortress"]) -> str:
+    """DEPRECATED alias for working_mode_set. Switch the operator's working mode.
+
+    The workspace migrated from cycle_mode (dev/prod) to working_mode
+    (research/rnd/fortress). The accepted modes are now research/rnd/fortress
+    (the council /cycle-mode endpoint has accepted only those values since
+    the rename — passing dev/prod has been failing 422). This wrapper
+    preserves the old tool name for callers that haven't migrated, but
+    routes to /working-mode under the hood. New code should use
+    working_mode_set.
+
+    Args:
+        mode: Target mode — 'research', 'rnd', or 'fortress'
+    """
+    if mode not in ("research", "rnd", "fortress"):
+        raise ValueError(
+            f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'. "
+            f"(cycle_mode_set is deprecated; use working_mode_set.)"
+        )
+    logger.debug("tool: cycle_mode_set (deprecated) mode=%s", mode)
+    try:
+        return _sanitize_response(await client.put("/working-mode", {"mode": mode}))
     except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
         logger.error("cycle_mode_set failed: %s", e)
         return _fmt_error(e)
@@ -598,7 +644,7 @@ async def query_refine(question: str, prior_result: str, agent_type: str) -> str
 
 @mcp.tool()
 async def status() -> str:
-    """Get combined system status: health + GPU + infrastructure + cycle mode."""
+    """Get combined system status: health + GPU + infrastructure + working mode."""
     from hapax_mcp.models import (
         GpuResponse,
         HealthResponse,
@@ -612,7 +658,7 @@ async def status() -> str:
         ("health", "/health", HealthResponse),
         ("gpu", "/gpu", GpuResponse),
         ("infrastructure", "/infrastructure", InfrastructureResponse),
-        ("cycle_mode", "/cycle-mode", WorkingModeResponse),
+        ("working_mode", "/working-mode", WorkingModeResponse),
     ]
     for name, path, model in validated_endpoints:
         try:
