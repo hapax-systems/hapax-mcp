@@ -6,13 +6,13 @@ Single-operator system — no auth on logos API.
 
 ## Sister surfaces
 
-This MCP server is one of three Tier 1 interfaces that read the same Logos API:
+This MCP server is one of three Logos-API consumers (the council Tier 1 list also includes the hapax-logos Tauri app and the waybar status bar, which read the same data through different mechanisms):
 
 - **VS Code extension (council)** — `hapax-council/vscode/CLAUDE.md`. Operator-facing chat sidebar; uses LiteLLM, OpenAI, or Anthropic providers. Same `:8051` API.
 - **VS Code extension (officium)** — `hapax-officium/vscode/CLAUDE.md`. Same shape, points at officium's `:8050` API instead.
 - **MCP server (this repo)** — Claude Code tools, stdio transport.
 
-If a tool exists here, the same data is reachable from either VS Code extension. Surface choice is operator preference, not capability.
+The MCP tools and the VS Code extensions read the same Logos API; surface choice is operator preference, not capability. To bridge officium tools through MCP, run a second mcp instance with `LOGOS_BASE_URL=http://localhost:8050/api` (the default points at council).
 
 ## Build & Run
 
