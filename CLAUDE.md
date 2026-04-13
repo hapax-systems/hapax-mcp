@@ -4,6 +4,16 @@ MCP server wrapping the hapax logos API. Bridges 36 tools from the council/offic
 
 Single-operator system — no auth on logos API.
 
+## Sister surfaces
+
+This MCP server is one of three Tier 1 interfaces that read the same Logos API:
+
+- **VS Code extension (council)** — `hapax-council/vscode/CLAUDE.md`. Operator-facing chat sidebar; uses LiteLLM, OpenAI, or Anthropic providers. Same `:8051` API.
+- **VS Code extension (officium)** — `hapax-officium/vscode/CLAUDE.md`. Same shape, points at officium's `:8050` API instead.
+- **MCP server (this repo)** — Claude Code tools, stdio transport.
+
+If a tool exists here, the same data is reachable from either VS Code extension. Surface choice is operator preference, not capability.
+
 ## Build & Run
 
 ```bash
