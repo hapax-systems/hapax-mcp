@@ -62,9 +62,15 @@ def mock_get_validated():
                     failed_checks=[],
                 )
             if model is GpuResponse:
-                return GpuResponse(used_mib=12000, total_mib=24576)
+                return GpuResponse(
+                    name="NVIDIA RTX 3090",
+                    total_mb=24576,
+                    used_mb=12000,
+                    free_mb=12576,
+                    usage_pct=48.8,
+                )
             if model is InfrastructureResponse:
-                return InfrastructureResponse(containers=[], timers=[])
+                return InfrastructureResponse(containers=[])
             if model is WorkingModeResponse:
                 return WorkingModeResponse(mode="rnd", switched_at="2026-04-13T00:00:00+00:00")
             raise AssertionError(f"unexpected model: {model}")
