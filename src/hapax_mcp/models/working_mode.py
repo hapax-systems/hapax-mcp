@@ -1,4 +1,4 @@
-"""Response models for working mode / cycle mode endpoint."""
+"""Response model for the working_mode endpoint."""
 
 from __future__ import annotations
 

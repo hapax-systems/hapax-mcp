@@ -211,11 +211,7 @@ async def cycle_mode() -> str:
     callers that haven't migrated yet. New code should use working_mode.
     """
     logger.debug("tool: cycle_mode (deprecated alias for working_mode)")
-    try:
-        return _sanitize_response(await client.get("/working-mode"))
-    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
-        logger.error("cycle_mode failed: %s", e)
-        return _fmt_error(e)
+    return await working_mode()
 
 
 @mcp.tool()
@@ -359,8 +355,9 @@ async def working_mode_set(mode: Literal["research", "rnd", "fortress"]) -> str:
     Args:
         mode: Target mode — 'research', 'rnd', or 'fortress'
     """
-    if mode not in ("research", "rnd", "fortress"):
-        raise ValueError(f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'.")
+    # Note: the `Literal` annotation is enforced by FastMCP at the schema
+    # layer before this function runs. A runtime `if mode not in (...)`
+    # check would be unreachable.
     logger.debug("tool: working_mode_set mode=%s", mode)
     try:
         return _sanitize_response(await client.put("/working-mode", {"mode": mode}))
@@ -374,27 +371,15 @@ async def cycle_mode_set(mode: Literal["research", "rnd", "fortress"]) -> str:
     """DEPRECATED alias for working_mode_set. Switch the operator's working mode.
 
     The workspace migrated from cycle_mode (dev/prod) to working_mode
-    (research/rnd/fortress). The accepted modes are now research/rnd/fortress
-    (the council /cycle-mode endpoint has accepted only those values since
-    the rename — passing dev/prod has been failing 422). This wrapper
-    preserves the old tool name for callers that haven't migrated, but
-    routes to /working-mode under the hood. New code should use
-    working_mode_set.
+    (research/rnd/fortress). This wrapper preserves the old tool name for
+    callers that haven't migrated, but routes to /working-mode under the
+    hood. New code should use working_mode_set.
 
     Args:
         mode: Target mode — 'research', 'rnd', or 'fortress'
     """
-    if mode not in ("research", "rnd", "fortress"):
-        raise ValueError(
-            f"Invalid mode: {mode!r}. Must be 'research', 'rnd', or 'fortress'. "
-            f"(cycle_mode_set is deprecated; use working_mode_set.)"
-        )
     logger.debug("tool: cycle_mode_set (deprecated) mode=%s", mode)
-    try:
-        return _sanitize_response(await client.put("/working-mode", {"mode": mode}))
-    except (httpx.HTTPStatusError, httpx.ConnectError, httpx.TimeoutException) as e:
-        logger.error("cycle_mode_set failed: %s", e)
-        return _fmt_error(e)
+    return await working_mode_set(mode)
 
 
 @mcp.tool()
@@ -665,6 +650,12 @@ async def status() -> str:
         except Exception as e:
             logger.error("status/%s failed: %s", name, e)
             results[name] = {"error": str(e)}
+
+    # Backward-compat alias: pre-#728 callers expect the response dict to
+    # carry a `cycle_mode` key. The value is identical to `working_mode`.
+    # Slated for removal once all consumers migrate.
+    results["cycle_mode"] = results["working_mode"]
+
     return _sanitize_response(results)
 
 
