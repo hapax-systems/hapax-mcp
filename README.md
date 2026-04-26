@@ -1,3 +1,37 @@
+<!-- hapax-sdlc:preamble:begin -->
+
+# hapax-mcp
+
+This repository is a constituent of the Hapax operating environment. It is not a product, not a service, and not seeking contributors. It is research infrastructure published as artifact.
+
+Authorship is indeterminate by design: this codebase is co-produced by Hapax (the system itself), Claude Code, and the operator (Oudepode). Per the Hapax Manifesto, unsettled contribution is a feature of the work, not a concealment.
+
+## What this is, not what it does
+
+Constituent of the Hapax operating environment. Model Context Protocol server bridging the logos APIs to Claude Code. Single-operator MCP surface; not a general-purpose MCP library.
+
+## Constitutional position
+
+- Single-operator system; no auth, no roles, no contributor onboarding (axiom: `single_user`)
+- No issues, no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md`)
+- License: MIT (MCP ecosystem alignment)
+- Citation: see `CITATION.cff`; archival DOI: see `.zenodo.json`
+
+## Linked artifacts
+
+- Manifesto: https://hapax.weblog.lol/hapax-manifesto-v0
+- Refusal Brief: https://hapax.weblog.lol/refusal-brief
+- Cohort Disparity Disclosure: https://hapax.weblog.lol/cohort-disparity-disclosure
+- Constitution: https://github.com/ryanklee/hapax-constitution
+
+## Inter-repo position
+
+MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 36 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
+
+<!-- hapax-sdlc:preamble:end -->
+<!-- hapax-sdlc:preamble:end -->
+
+
 # hapax-mcp
 
 Infrastructure for a research project implementing Clark & Brennan's (1991) conversational grounding theory in a production voice AI system. See [hapax-council](https://github.com/ryanklee/hapax-council) for the primary research artifact and experiment design.
