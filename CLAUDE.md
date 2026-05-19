@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-MCP server wrapping the hapax logos API. Bridges 36 tools from the council/officium logos HTTP APIs to Claude Code via the Model Context Protocol.
+MCP server wrapping the hapax logos API. Bridges 38 tools from the council/officium logos HTTP APIs to Claude Code via the Model Context Protocol.
 
 Single-operator system — no auth on logos API.
 
