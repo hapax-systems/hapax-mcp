@@ -118,7 +118,7 @@ jobs:
 
       - name: Run Claude Code
         if: steps.pr.outputs.skip != 'true' && steps.guard.outputs.tripped != 'true'
-        uses: anthropics/claude-code-action@51ea8ea73a139f2a74ff649e3092c25a904aed7e
+        uses: anthropics/claude-code-action@d5726de019ec4498aa667642bc3a80fca83aa102
         with:
           model: claude-sonnet-4-6
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
