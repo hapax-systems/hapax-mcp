@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
   security-events: write
   pull-requests: read
 
@@ -56,7 +57,7 @@ jobs:
           flags: python
           name: hapax-mcp-python
           fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
 
   secrets-scan:
     runs-on: ubuntu-latest
