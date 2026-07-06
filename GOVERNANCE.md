@@ -4,10 +4,10 @@ Governance for this repository is centralised at `hapax-constitution`. There is 
 
 ## Authoritative sources
 
-- Axiom registry: https://github.com/ryanklee/hapax-constitution/blob/main/axioms/registry.yaml
-- Implications: https://github.com/ryanklee/hapax-constitution/tree/main/axioms/implications/
-- Precedents: https://github.com/ryanklee/hapax-constitution/tree/main/axioms/precedents/
-- Axiom registry as Wiki: https://github.com/ryanklee/hapax-constitution/wiki
+- Axiom registry: https://github.com/hapax-systems/hapax-constitution/blob/main/axioms/registry.yaml
+- Implications: https://github.com/hapax-systems/hapax-constitution/tree/main/axioms/implications/
+- Precedents: https://github.com/hapax-systems/hapax-constitution/tree/main/axioms/precedents/
+- Axiom registry as Wiki: https://github.com/hapax-systems/hapax-constitution/wiki
 
 ## Operator
 

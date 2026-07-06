@@ -3,8 +3,8 @@
   "@type": "SoftwareSourceCode",
   "name": "hapax-mcp",
   "description": "Constituent of the Hapax operating environment. Model Context Protocol server bridging the logos APIs to Claude Code. Single-operator MCP surface; not a general-purpose MCP library.",
-  "codeRepository": "https://github.com/ryanklee/hapax-mcp",
-  "url": "https://github.com/ryanklee/hapax-mcp",
+  "codeRepository": "https://github.com/hapax-systems/hapax-mcp",
+  "url": "https://github.com/hapax-systems/hapax-mcp",
   "license": "https://spdx.org/licenses/MIT",
   "author": [
     {
@@ -22,7 +22,7 @@
     "infrastructure-as-argument"
   ],
   "relatedLink": [
-    "https://github.com/ryanklee/hapax-council",
-    "https://github.com/ryanklee/hapax-officium"
+    "https://github.com/hapax-systems/hapax-council",
+    "https://github.com/hapax-systems/hapax-officium"
   ]
 }
