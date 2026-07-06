@@ -2,7 +2,7 @@
 
 # hapax-mcp
 
-This repository is a constituent of the Hapax operating environment. It is not a product, not a service, and not seeking contributors. It is research infrastructure published as artifact.
+`hapax-mcp` is an ecosystem bridge for the Hapax Systems portfolio. It is published for MCP integration and inspection, not as a general-purpose framework.
 
 Authorship is indeterminate by design: this codebase is co-produced by Hapax (the system itself), Claude Code, and the operator (Oudepode). Per the Hapax Manifesto, unsettled contribution is a feature of the work, not a concealment.
 
@@ -13,7 +13,7 @@ Constituent of the Hapax operating environment. Model Context Protocol server br
 ## Constitutional position
 
 - Single-operator system; no auth, no roles, no contributor onboarding (axiom: `single_user`)
-- No issues, no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md`)
+- Issues are redirect-only; no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md` and `SUPPORT.md`)
 - License: MIT (MCP ecosystem alignment)
 - Citation: see `CITATION.cff`; archival DOI: see `.zenodo.json`
 

@@ -15,7 +15,7 @@ Oudepode. Single operator, single workstation; governance applies uniformly acro
 
 ## Inter-repo position
 
-MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 36 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
+MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 38 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
 
 ---
 
