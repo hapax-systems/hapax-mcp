@@ -1,6 +1,6 @@
 # NOTICE — hapax-mcp
 
-This repository is a constituent of the Hapax operating environment. It is not a product, not a service, and not seeking contributors. It is research infrastructure published as artifact.
+`hapax-mcp` is an ecosystem bridge for Hapax Systems APIs and MCP clients. It is not a general-purpose MCP framework.
 
 Authorship is indeterminate by design. This codebase is co-produced by Hapax (the system itself), Claude Code, and the operator (Oudepode). Per the Hapax Manifesto, unsettled contribution is a feature of the work, not a concealment.
 
@@ -16,11 +16,11 @@ Authorship is indeterminate by design. This codebase is co-produced by Hapax (th
 - Manifesto: https://hapax.weblog.lol/hapax-manifesto-v0
 - Refusal Brief: https://hapax.weblog.lol/refusal-brief
 - Cohort Disparity Disclosure: https://hapax.weblog.lol/cohort-disparity-disclosure
-- Constitution: https://github.com/ryanklee/hapax-constitution
+- Constitution: https://github.com/hapax-systems/hapax-constitution
 
 ## Inter-repo position
 
-MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 36 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
+MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 38 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
 
 ---
 

@@ -2,7 +2,7 @@
 
 # hapax-mcp
 
-This repository is a constituent of the Hapax operating environment. It is not a product, not a service, and not seeking contributors. It is research infrastructure published as artifact.
+`hapax-mcp` is an ecosystem bridge for the Hapax Systems portfolio. It is published for MCP integration and inspection, not as a general-purpose framework.
 
 Authorship is indeterminate by design: this codebase is co-produced by Hapax (the system itself), Claude Code, and the operator (Oudepode). Per the Hapax Manifesto, unsettled contribution is a feature of the work, not a concealment.
 
@@ -13,7 +13,7 @@ Constituent of the Hapax operating environment. Model Context Protocol server br
 ## Constitutional position
 
 - Single-operator system; no auth, no roles, no contributor onboarding (axiom: `single_user`)
-- No issues, no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md`)
+- Issues are redirect-only; no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md` and `SUPPORT.md`)
 - License: MIT (MCP ecosystem alignment)
 - Citation: see `CITATION.cff`; archival DOI: see `.zenodo.json`
 
@@ -22,7 +22,7 @@ Constituent of the Hapax operating environment. Model Context Protocol server br
 - Manifesto: https://hapax.weblog.lol/hapax-manifesto-v0
 - Refusal Brief: https://hapax.weblog.lol/refusal-brief
 - Cohort Disparity Disclosure: https://hapax.weblog.lol/cohort-disparity-disclosure
-- Constitution: https://github.com/ryanklee/hapax-constitution
+- Constitution: https://github.com/hapax-systems/hapax-constitution
 
 ## Inter-repo position
 
@@ -34,7 +34,7 @@ MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 
 
 Model Context Protocol server (FastMCP, stdio transport) that exposes the Hapax logos HTTP APIs as MCP tools. The default endpoint is the council logos API at `http://localhost:8051/api`. Pointing `LOGOS_BASE_URL` at `http://localhost:8050/api` exposes the officium logos API instead.
 
-The same logos data is reachable through three independent surfaces: the hapax-logos Tauri app, the VS Code extensions in [hapax-council](https://github.com/ryanklee/hapax-council) and [hapax-officium](https://github.com/ryanklee/hapax-officium), and this MCP server. Surface choice is operator preference; capability is identical across surfaces.
+The same logos data is reachable through three independent surfaces: the hapax-logos Tauri app, the VS Code extensions in [hapax-council](https://github.com/hapax-systems/hapax-council) and [hapax-officium](https://github.com/hapax-systems/hapax-officium), and this MCP server. Surface choice is operator preference; capability is identical across surfaces.
 
 ## Tool surface (38 tools)
 
@@ -118,11 +118,11 @@ The server emits a static instruction warning that tool output may include conte
 
 | Repository | Role |
 |-----------|------|
-| [hapax-council](https://github.com/ryanklee/hapax-council) | Primary research artifact — voice daemon, grounding system, experiment infrastructure |
-| [hapax-constitution](https://github.com/ryanklee/hapax-constitution) | Governance specification — axioms, implications, canons, precedents |
-| [hapax-officium](https://github.com/ryanklee/hapax-officium) | Supporting software — management decision support |
-| [hapax-watch](https://github.com/ryanklee/hapax-watch) | Wear OS biometric companion |
-| [hapax-phone](https://github.com/ryanklee/hapax-phone) | Android health + context companion |
+| [hapax-council](https://github.com/hapax-systems/hapax-council) | Primary research artifact — voice daemon, grounding system, experiment infrastructure |
+| [hapax-constitution](https://github.com/hapax-systems/hapax-constitution) | Governance specification — axioms, implications, canons, precedents |
+| [hapax-officium](https://github.com/hapax-systems/hapax-officium) | Supporting software — management decision support |
+| [hapax-watch](https://github.com/hapax-systems/hapax-watch) | Wear OS biometric companion |
+| [hapax-phone](https://github.com/hapax-systems/hapax-phone) | Android health + context companion |
 | **hapax-mcp** (this repo) | MCP server bridging the logos APIs to Claude Code |
 
 ## License

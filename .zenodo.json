@@ -16,12 +16,12 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "https://github.com/ryanklee/hapax-council",
+      "identifier": "https://github.com/hapax-systems/hapax-council",
       "relation": "isRequiredBy",
       "scheme": "url"
     },
     {
-      "identifier": "https://github.com/ryanklee/hapax-officium",
+      "identifier": "https://github.com/hapax-systems/hapax-officium",
       "relation": "isRequiredBy",
       "scheme": "url"
     }
