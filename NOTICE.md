@@ -8,6 +8,10 @@ This repository is part of the Hapax Systems portfolio. Public metadata, issue a
 
 MCP bridge exposing Hapax logos API state and actions to Claude Code and compatible MCP clients.
 
+## Reader value
+
+Gives MCP clients a bounded bridge to live Hapax state while keeping authority with the underlying APIs rather than the connector.
+
 ## Claim ceiling
 
 Integration bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.

@@ -8,6 +8,10 @@
 
 MCP bridge exposing Hapax logos API state and actions to Claude Code and compatible MCP clients.
 
+## Reader value
+
+Gives MCP clients a bounded bridge to live Hapax state while keeping authority with the underlying APIs rather than the connector.
+
 ## Claim ceiling
 
 Integration bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
@@ -35,17 +39,17 @@ MCP bridge. Consumes council and officium logos APIs over HTTP and presents boun
 
 Model Context Protocol server (FastMCP, stdio transport) that exposes the Hapax logos HTTP APIs as MCP tools. The default endpoint is the council logos API at `http://localhost:8051/api`. Pointing `LOGOS_BASE_URL` at `http://localhost:8050/api` exposes the officium logos API instead.
 
-The same logos data is reachable through three independent surfaces: the hapax-logos Tauri app, the VS Code extensions in [hapax-council](https://github.com/hapax-systems/hapax-council) and [hapax-officium](https://github.com/hapax-systems/hapax-officium), and this MCP server. Surface choice is operator preference; capability is identical across surfaces.
+The same logos data is reachable through three independent surfaces: the hapax-logos Tauri app, the VS Code extensions in [hapax-council](https://github.com/hapax-systems/hapax-council) and [hapax-officium](https://github.com/hapax-systems/hapax-officium), and this MCP server. Surface choice is operator preference; capability is identical across surfaces. Authority stays with the logos APIs; this repository is the bridge, not the policy source.
 
 ## Tool surface (38 tools)
 
-| Group | Count | Tools |
-|-------|-------|-------|
-| Read-only | 22 | health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual, working_mode, cycle_mode |
-| Chronicle | 2 | chronicle, chronicle_narrate |
-| Write | 10 | nudge_act, nudge_dismiss, working_mode_set, cycle_mode_set, profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable |
-| Streaming (SSE) | 2 | query, query_refine |
-| Compound | 2 | status (health + gpu + infrastructure + working_mode), daily_summary (briefing + nudges + goals + drift) |
+| Group | Count | Tools | Reader value |
+|-------|-------|-------|---|
+| Read-only | 22 | health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual, working_mode, cycle_mode | Gives MCP clients visibility into state without needing to own the underlying APIs. |
+| Chronicle | 2 | chronicle, chronicle_narrate | Lets a client inspect and summarize event history with the source window explicit. |
+| Write | 10 | nudge_act, nudge_dismiss, working_mode_set, cycle_mode_set, profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable | Exposes bounded actions where the server-side Hapax API remains the authority. |
+| Streaming (SSE) | 2 | query, query_refine | Carries long-running query/refinement flows without turning the MCP bridge into a planner. |
+| Compound | 2 | status (health + gpu + infrastructure + working_mode), daily_summary (briefing + nudges + goals + drift) | Gives operator-facing summaries without requiring a client to reconstruct common views. |
 
 `working_mode` and `working_mode_set` are canonical. `cycle_mode` and `cycle_mode_set` are deprecated aliases retained during the workspace-wide migration; both route through to `/working-mode` server-side. Accepted mode values: `research`, `rnd`, `fortress` (officium omits `fortress`). The legacy `dev` / `prod` values return 422 server-side.
 
