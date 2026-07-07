@@ -2,12 +2,11 @@ cff-version: 1.2.0
 message: If you use this software in your research, please cite it as below.
 type: software
 title: hapax-mcp
-abstract: Constituent of the Hapax operating environment. Model Context Protocol server
-  bridging the logos APIs to Claude Code. Single-operator MCP surface; not a general-purpose
-  MCP library.
+abstract: Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed
+  Hapax API state and actions to Claude Code and compatible MCP clients without becoming
+  a general-purpose MCP framework.
 authors:
-- given-names: Ryan
-  family-names: Kleeberger
+- name: Hapax Systems
 repository-code: https://github.com/hapax-systems/hapax-mcp
 url: https://github.com/hapax-systems/hapax-mcp
 license: MIT

@@ -1,9 +1,9 @@
 {
   "title": "hapax-mcp",
-  "description": "Constituent of the Hapax operating environment. Model Context Protocol server bridging the logos APIs to Claude Code. Single-operator MCP surface; not a general-purpose MCP library.",
+  "description": "Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
   "creators": [
     {
-      "name": "Ryan Kleeberger"
+      "name": "Hapax Systems"
     }
   ],
   "license": "MIT",
@@ -24,11 +24,6 @@
       "identifier": "https://github.com/hapax-systems/hapax-officium",
       "relation": "isRequiredBy",
       "scheme": "url"
-    }
-  ],
-  "communities": [
-    {
-      "identifier": "hapax-publications"
     }
   ]
 }
