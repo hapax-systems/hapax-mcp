@@ -6,7 +6,7 @@ This repository is operated by a single individual (Oudepode). It runs in a sing
 
 Submit security disclosures via the Sigstore-signed disclosure channel at:
 
-  https://hapax.weblog.lol/contact
+  https://example.invalid/contact
 
 Email is not published on repository surfaces by constitutional choice. The Sigstore path verifies disclosure authorship via OpenID Connect, eliminating the need for PGP key exchange or private email correspondence.
 

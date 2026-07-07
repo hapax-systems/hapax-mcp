@@ -2,31 +2,32 @@
 
 # hapax-mcp
 
-`hapax-mcp` is an ecosystem bridge for the Hapax Systems portfolio. It is published for MCP integration and inspection, not as a general-purpose framework.
+`hapax-mcp` is an ecosystem bridge for the Hapax Systems portfolio. It is maintained for MCP integration and inspection, not as a general-purpose framework.
 
-Authorship is indeterminate by design: this codebase is co-produced by Hapax (the system itself), Claude Code, and the operator (Oudepode). Per the Hapax Manifesto, unsettled contribution is a feature of the work, not a concealment.
+## Reader promise
 
-## What this is, not what it does
+MCP bridge exposing Hapax logos API state and actions to Claude Code and compatible MCP clients.
 
-Constituent of the Hapax operating environment. Model Context Protocol server bridging the logos APIs to Claude Code. Single-operator MCP surface; not a general-purpose MCP library.
+## Claim ceiling
 
-## Constitutional position
+Ecosystem bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
 
-- Single-operator system; no auth, no roles, no contributor onboarding (axiom: `single_user`)
-- Issues are redirect-only; no discussions, no PRs accepted; refusal is the artifact (see `CONTRIBUTING.md` and `SUPPORT.md`)
-- License: MIT (MCP ecosystem alignment)
-- Citation: see `CITATION.cff`; archival DOI: see `.zenodo.json`
+## License and rights
 
-## Linked artifacts
+Permissive ecosystem bridge for MCP integration; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
 
-- Manifesto: https://hapax.weblog.lol/hapax-manifesto-v0
-- Refusal Brief: https://hapax.weblog.lol/refusal-brief
-- Cohort Disparity Disclosure: https://hapax.weblog.lol/cohort-disparity-disclosure
-- Constitution: https://github.com/hapax-systems/hapax-constitution
+Rendered summary: MIT. See `LICENSE`, `NOTICE.md`, `CITATION.cff`, and `.zenodo.json` for the authority surfaces.
 
-## Inter-repo position
+## Public boundary
 
-MCP bridge. Consumes the council and officium logos APIs over HTTP and presents 38 tools to Claude Code. The MCP ecosystem norm is MIT; this repo carries MIT explicitly per operator divergence (every other runtime repo is PolyForm Strict).
+- Issues are redirect-only; no discussions, no pull requests accepted; see `CONTRIBUTING.md` and `SUPPORT.md`
+- Public copy must use `hapax-systems` organization links for first-party Hapax repositories.
+- Publication, weblog, RSS, social, DOI/archive, and other public fanout paths must route through the governed publication bus or a documented guarded legacy surface.
+- Governance reference: https://github.com/hapax-systems/hapax-constitution
+
+## Portfolio position
+
+MCP bridge. Consumes council and officium logos APIs over HTTP and presents bounded tools to Claude Code and compatible MCP clients. Authority remains with the underlying Hapax APIs.
 
 <!-- hapax-sdlc:preamble:end -->
 
