@@ -2,7 +2,7 @@
 
 # hapax-mcp
 
-`hapax-mcp` is an ecosystem bridge for the Hapax Systems portfolio. It is maintained for MCP integration and inspection, not as a general-purpose framework.
+`hapax-mcp` is an integration bridge for the Hapax Systems portfolio. It is maintained for MCP integration and inspection, not as a general-purpose framework.
 
 ## Reader promise
 
@@ -10,11 +10,11 @@ MCP bridge exposing Hapax logos API state and actions to Claude Code and compati
 
 ## Claim ceiling
 
-Ecosystem bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
+Integration bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
 
 ## License and rights
 
-Permissive ecosystem bridge for MCP integration; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
+Permissive integration bridge for MCP use; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
 
 Rendered summary: MIT. See `LICENSE`, `NOTICE.md`, `CITATION.cff`, and `.zenodo.json` for the authority surfaces.
 
@@ -115,7 +115,7 @@ The server emits a static instruction warning that tool output may include conte
 | `claude-review.yml` | PR open / sync | Claude Code review on the PR |
 | `dependabot-auto-merge.yml` | Dependabot PR | Auto-merge for patch / minor bumps |
 
-## Ecosystem
+## Related Repositories
 
 | Repository | Role |
 |-----------|------|

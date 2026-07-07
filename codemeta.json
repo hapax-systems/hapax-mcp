@@ -2,7 +2,7 @@
   "@context": "https://w3id.org/codemeta/3.0",
   "@type": "SoftwareSourceCode",
   "name": "hapax-mcp",
-  "description": "Private MCP ecosystem bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
+  "description": "Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
   "codeRepository": "https://github.com/hapax-systems/hapax-mcp",
   "url": "https://github.com/hapax-systems/hapax-mcp",
   "license": "https://spdx.org/licenses/MIT",

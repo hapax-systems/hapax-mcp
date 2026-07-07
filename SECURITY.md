@@ -1,14 +1,14 @@
 # Security policy
 
-This repository is operated by a single individual (Oudepode). It runs in a single-operator deployment with no external users, no auth surface, and no third-party data residency.
+A single individual (Oudepode) operates this repository. It runs in a single-operator deployment with no external users, no auth surface, and no third-party data residency.
 
 ## Disclosure path
 
 Submit security disclosures via the Sigstore-signed disclosure channel at:
 
-  https://example.invalid/contact
+  https://hapax.weblog.lol/contact
 
-Email is not published on repository surfaces by constitutional choice. The Sigstore path verifies disclosure authorship via OpenID Connect, eliminating the need for PGP key exchange or private email correspondence.
+Repository surfaces do not publish email by constitutional choice. The Sigstore path verifies disclosure authorship via OpenID Connect, eliminating the need for PGP key exchange or private email correspondence.
 
 ## Scope
 
@@ -16,7 +16,7 @@ Security reports about deployment hardening, architectural choices, or features 
 
 ## Response time
 
-Best-effort, single-operator basis; no SLA. Critical disclosures (remote code execution, secret leak in published commits) are addressed in the next maintenance window.
+Best-effort, single-operator basis; no SLA. The next maintenance window handles critical disclosures such as remote code execution or secret leaks in published commits.
 
 ## Past advisories
 

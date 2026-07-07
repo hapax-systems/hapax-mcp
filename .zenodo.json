@@ -1,6 +1,6 @@
 {
   "title": "hapax-mcp",
-  "description": "Private MCP ecosystem bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
+  "description": "Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
   "creators": [
     {
       "name": "Hapax Systems"

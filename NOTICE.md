@@ -1,8 +1,8 @@
 # NOTICE - hapax-mcp
 
-`hapax-mcp` is an ecosystem bridge for Hapax Systems APIs and MCP clients. It is maintained for integration and inspection, not as a general-purpose MCP framework.
+`hapax-mcp` is an integration bridge for Hapax Systems APIs and MCP clients. It is maintained for integration and inspection, not as a general-purpose MCP framework.
 
-This repository is part of the Hapax Systems portfolio. Public metadata, issue affordances, and support boundaries are governed by the registry in `hapax-constitution`.
+This repository is part of the Hapax Systems portfolio. Public metadata, issue affordances, and support boundaries follow the registry in `hapax-constitution`.
 
 ## Reader promise
 
@@ -10,11 +10,11 @@ MCP bridge exposing Hapax logos API state and actions to Claude Code and compati
 
 ## Claim ceiling
 
-Ecosystem bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
+Integration bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
 
 ## License and rights
 
-Permissive ecosystem bridge for MCP integration; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
+Permissive integration bridge for MCP use; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
 
 Rendered summary: MIT - permissive.
 

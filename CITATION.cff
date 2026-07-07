@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: If you use this software in your research, please cite it as below.
 type: software
 title: hapax-mcp
-abstract: Private MCP ecosystem bridge for Hapax Systems logos APIs. Exposes governed
+abstract: Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed
   Hapax API state and actions to Claude Code and compatible MCP clients without becoming
   a general-purpose MCP framework.
 authors:

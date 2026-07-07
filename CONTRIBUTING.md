@@ -8,9 +8,9 @@ Hapax is research infrastructure for one operator's externalised executive funct
 
 ## What this means in practice
 
-- Issues are redirect-only; blank issues are disabled by `.github/ISSUE_TEMPLATE/config.yml`.
-- Pull requests are auto-closed by `.github/workflows/`.
-- Discussions and Wiki are disabled (except `hapax-constitution` Wiki, which mirrors the axiom registry).
+- Issues are redirect-only; `.github/ISSUE_TEMPLATE/config.yml` disables blank issues.
+- `.github/workflows/` auto-closes pull requests.
+- Repositories disable Discussions and Wiki except for the `hapax-constitution` Wiki, which mirrors the axiom registry.
 - Funding links, if present, are no-perk research support only.
 - This file is rendered from `hapax-constitution/sdlc/render/`; edits are overwritten on next render.
 
