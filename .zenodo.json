@@ -25,10 +25,5 @@
       "relation": "isRequiredBy",
       "scheme": "url"
     }
-  ],
-  "communities": [
-    {
-      "identifier": "hapax-publications"
-    }
   ]
 }
