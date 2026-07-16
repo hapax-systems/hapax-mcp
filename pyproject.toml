@@ -5,7 +5,7 @@ description = "MCP server wrapping the hapax logos API"
 requires-python = ">=3.12"
 license = "MIT"
 dependencies = [
-    "mcp>=1.26",
+    "mcp>=1.27.2",
     "httpx>=0.28.1",
     "pydantic>=2.0",
 ]
