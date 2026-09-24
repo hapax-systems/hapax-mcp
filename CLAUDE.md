@@ -107,7 +107,36 @@ print("JSON defaults:", inspect.signature(server._sanitize_response))
 print("SSE defaults:", inspect.signature(client.post_sse))
 print("Path pattern:", server._PATH_SEGMENT_RE.pattern)
 PY
+```
 
+Inspect the implementations for response truncation, handled-error formatting,
+SSE stopping and next-line timeout, and environment-token fallback:
+
+```bash
+uv run python - <<'PY'
+import inspect
+
+from hapax_mcp import client, server
+
+for function in (
+    server._sanitize_response,
+    server._fmt_error,
+    client.post_sse,
+    client._iter_lines_with_timeout,
+    client._headers,
+):
+    print(f"\n# {function.__module__}.{function.__name__}")
+    print(inspect.getsource(function))
+PY
+```
+
+These two commands inspect source and defaults; they do not execute the named
+behavior paths or prove those behaviors. The second prints function definitions,
+without reading or printing environment-token values or making backend requests.
+
+Run the repository checks separately:
+
+```bash
 uv run ruff check .
 uv run ruff format --check .
 uv run pyright

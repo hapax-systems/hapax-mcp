@@ -73,7 +73,11 @@ every endpoint.
 
 `working_mode` and `working_mode_set` are canonical. `cycle_mode` and `cycle_mode_set` are deprecated aliases retained during the workspace-wide migration; both route through to `/working-mode` server-side. The MCP input schema accepts `research`, `rnd`, and `fortress`; a backend may accept a narrower set. Legacy `dev` / `prod` values are not accepted by this schema.
 
-`chronicle` accepts filters `since`, `until`, `source`, `event_type`, `trace_id`, `limit`. `chronicle_narrate` requests an LLM synthesis of a chronicle window from the backend. It uses GET but can invoke model work, as can `query` and `query_refine`; backend provider configuration and usage costs apply.
+`chronicle` accepts filters `since`, `until`, `source`, `event_type`, `trace_id`, `limit`.
+`chronicle_narrate` uses GET to request an LLM synthesis of a chronicle window
+from the backend. Separately, `query` and `query_refine` POST to backend SSE
+endpoints and can also invoke model work. Backend provider configuration and
+usage costs apply to these model-backed operations.
 
 ## Install from source
 
