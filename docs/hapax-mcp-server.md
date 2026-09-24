@@ -1,5 +1,12 @@
 # Design: Cockpit MCP Server for Claude Code
 
+> **Historical design — notice added September 24, 2026.** This March 2026
+> draft is preserved as design history. Its Cockpit commands, client behavior,
+> tool inventory, and security claims are obsolete and must not be used as
+> current operating instructions. See the [README](../README.md) for current
+> prerequisites, source installation, and limitations, and [CLAUDE.md](../CLAUDE.md)
+> for the current operator and development reference.
+
 **Date:** 2026-03-13
 **Status:** Draft
 **Author:** hapax + Claude
@@ -169,11 +176,13 @@ mcp = FastMCP(
 
 COCKPIT_BASE = "http://localhost:8051/api"
 
+
 async def _get(path: str) -> dict:
     async with httpx.AsyncClient() as client:
         resp = await client.get(f"{COCKPIT_BASE}{path}", timeout=10)
         resp.raise_for_status()
         return resp.json()
+
 
 async def _post(path: str, json: dict | None = None) -> dict:
     async with httpx.AsyncClient() as client:
@@ -183,6 +192,7 @@ async def _post(path: str, json: dict | None = None) -> dict:
 
 
 # ── Read-only tools ────────────────────────────────────────────────
+
 
 @mcp.tool(
     annotations={"readOnlyHint": True, "openWorldHint": False},
@@ -224,6 +234,7 @@ async def cockpit_profile(dimension: str = "") -> dict:
 
 # ── Write tools ────────────────────────────────────────────────────
 
+
 @mcp.tool(
     annotations={"readOnlyHint": False, "destructiveHint": False},
 )
@@ -244,6 +255,7 @@ async def cockpit_cycle_mode_set(mode: str) -> dict:
 
 # ── Query dispatch (SSE → collected result) ────────────────────────
 
+
 @mcp.tool(
     annotations={"readOnlyHint": True, "openWorldHint": True},
 )
@@ -254,14 +266,22 @@ async def cockpit_query(query: str) -> dict:
     # Consume SSE stream, return final result
     async with httpx.AsyncClient() as client:
         async with client.stream(
-            "POST", f"{COCKPIT_BASE}/query/run",
-            json={"query": query}, timeout=60,
+            "POST",
+            f"{COCKPIT_BASE}/query/run",
+            json={"query": query},
+            timeout=60,
         ) as resp:
-            result = {"markdown": "", "agent_used": "", "tokens_in": 0,
-                       "tokens_out": 0, "elapsed_ms": 0}
+            result = {
+                "markdown": "",
+                "agent_used": "",
+                "tokens_in": 0,
+                "tokens_out": 0,
+                "elapsed_ms": 0,
+            }
             async for line in resp.aiter_lines():
                 if line.startswith("data: "):
                     import json
+
                     data = json.loads(line[6:])
                     if "content" in data:
                         result["markdown"] = data["content"]
@@ -272,6 +292,7 @@ async def cockpit_query(query: str) -> dict:
 
 # ── Compound tools ─────────────────────────────────────────────────
 
+
 @mcp.tool(
     annotations={"readOnlyHint": True, "openWorldHint": False},
 )
@@ -279,12 +300,14 @@ async def cockpit_status() -> dict:
     """Get a combined system status snapshot: health, GPU/VRAM,
     infrastructure (containers + timers), and cycle mode."""
     import asyncio
+
     health, gpu, infra, mode = await asyncio.gather(
-        _get("/health"), _get("/gpu"),
-        _get("/infrastructure"), _get("/cycle-mode"),
+        _get("/health"),
+        _get("/gpu"),
+        _get("/infrastructure"),
+        _get("/cycle-mode"),
     )
-    return {"health": health, "gpu": gpu,
-            "infrastructure": infra, "cycle_mode": mode}
+    return {"health": health, "gpu": gpu, "infrastructure": infra, "cycle_mode": mode}
 ```
 
 ### SSE Stream Consumption
