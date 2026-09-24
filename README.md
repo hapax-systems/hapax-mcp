@@ -115,6 +115,15 @@ claude mcp add --env LOGOS_BASE_URL=http://localhost:8051/api \
   -- uv --directory /absolute/path/to/hapax-mcp run hapax-mcp
 ```
 
+Inspect the saved registration and MCP connection from that same project:
+
+```bash
+claude mcp get hapax
+```
+
+A connected MCP process still needs a successful `health` tool response to
+establish backend connectivity.
+
 Claude Code's local scope is private to that project. For shared project
 configuration, use `.mcp.json`; MCP server entries do not belong in
 `~/.claude/settings.json`. See the [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
