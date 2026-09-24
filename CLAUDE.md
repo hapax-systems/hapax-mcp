@@ -88,6 +88,36 @@ to `/working-mode`. Legacy `dev` / `prod` values are outside the MCP schema.
 - **API key optional:** Bearer auth only sent if `LOGOS_API_KEY` (or `COCKPIT_API_KEY` fallback) env var is set.
 - **External content:** The server warns that tool output is untrusted. That instruction does not enforce sanitization or authorization.
 
+## Verify the source
+
+From the repository root after `uv sync --locked`, inspect the registered tools
+and implementation defaults without making backend requests:
+
+```bash
+uv run python - <<'PY'
+import asyncio
+import inspect
+
+from hapax_mcp import client, server
+
+tools = asyncio.run(server.mcp.list_tools())
+print(f"{len(tools)} tools:", ", ".join(tool.name for tool in tools))
+print("HTTP/SSE/next-line timeouts:", client._TIMEOUT, client._SSE_TIMEOUT, client._SSE_EVENT_TIMEOUT)
+print("JSON defaults:", inspect.signature(server._sanitize_response))
+print("SSE defaults:", inspect.signature(client.post_sse))
+print("Path pattern:", server._PATH_SEGMENT_RE.pattern)
+PY
+
+uv run ruff check .
+uv run ruff format --check .
+uv run pyright
+uv run pytest tests -q
+```
+
+These checks inspect this checkout; they do not establish backend availability
+or cross-client compatibility. The hosted job definitions are in
+[CI](.github/workflows/ci.yml).
+
 ## Dependencies
 
 - mcp >= 1.26

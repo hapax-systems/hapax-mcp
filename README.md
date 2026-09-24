@@ -110,9 +110,9 @@ From the project where you want to use the tools, register the local process
 with an absolute path to your clone:
 
 ```bash
-claude mcp add --transport stdio --scope local \
-  --env LOGOS_BASE_URL=http://localhost:8051/api \
-  hapax -- uv --directory /absolute/path/to/hapax-mcp run hapax-mcp
+claude mcp add --env LOGOS_BASE_URL=http://localhost:8051/api \
+  --transport stdio --scope local hapax \
+  -- uv --directory /absolute/path/to/hapax-mcp run hapax-mcp
 ```
 
 Claude Code's local scope is private to that project. For shared project
@@ -140,6 +140,11 @@ authentication. Supply credentials through your deployment's secret mechanism;
 do not commit them to client configuration.
 
 ## Limits and errors
+
+These limits come from [client.py](src/hapax_mcp/client.py) and
+[server.py](src/hapax_mcp/server.py). To recheck the registered inventory and
+configured limits from your checkout without calling the backend, run the
+[source verification commands](CLAUDE.md#verify-the-source).
 
 - Standard requests use an HTTPX timeout of 15 seconds. SSE requests use a
   120-second HTTPX timeout and a 30-second wait for each next line; these are
