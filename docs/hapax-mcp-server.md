@@ -1,5 +1,12 @@
 # Design: Cockpit MCP Server for Claude Code
 
+> **Historical design — notice added September 24, 2026.** This March 2026
+> draft is preserved as design history. Its Cockpit commands, client behavior,
+> tool inventory, and security claims are obsolete and must not be used as
+> current operating instructions. See the [README](../README.md) for current
+> prerequisites, source installation, and limitations, and [CLAUDE.md](../CLAUDE.md)
+> for the current operator and development reference.
+
 **Date:** 2026-03-13
 **Status:** Draft
 **Author:** hapax + Claude
