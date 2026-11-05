@@ -1,76 +1,101 @@
 # CLAUDE.md
 
-MCP server wrapping the hapax logos API. Bridges 38 tools from the council/officium logos HTTP APIs to Claude Code via the Model Context Protocol.
+Experimental Model Context Protocol (`stdio`) research tooling from **Hapax Research Lab** ([hapaxresearch.com](https://hapaxresearch.com)). This package registers 38 MCP tools (including two deprecated aliases) bridging compatible MCP clients to an existing Logos HTTP API deployment. Endpoint availability depends on the configured backend; tool registration is not a backend compatibility check. Read [AGENTS.md](AGENTS.md) for repository rules.
 
-Single-operator system — no auth on logos API.
+Authority remains with the operator and the underlying Logos API. The bridge includes write tools and does not add an independent authorization policy or read-only mode. Optional bearer-token forwarding does not establish a backend's authentication requirements. Do not infer permission to act from a tool's availability.
 
-## Sister surfaces
+## Deployment Context
 
-This MCP server is one of three Logos-API consumers (the council Tier 1 list also includes the hapax-logos Tauri app and the waybar status bar, which read the same data through different mechanisms):
+This repository consumes a separately running Logos HTTP API and exposes bounded tools over MCP `stdio`:
 
-- **VS Code extension (council)** — `hapax-council/vscode/CLAUDE.md`. Operator-facing chat sidebar; uses LiteLLM, OpenAI, or Anthropic providers. Same `:8051` API.
-- **VS Code extension (officium)** — `hapax-officium/vscode/CLAUDE.md`. Same shape, points at officium's `:8050` API instead.
-- **MCP server (this repo)** — Claude Code tools, stdio transport.
+- **Primary Logos API target** — default `http://localhost:8051/api`.
+- **Secondary Logos API target** — selected via `LOGOS_BASE_URL` (for example `http://localhost:8050/api`).
 
-The MCP tools and the VS Code extensions read the same Logos API; surface choice is operator preference, not capability. To bridge officium tools through MCP, run a second mcp instance with `LOGOS_BASE_URL=http://localhost:8050/api` (the default points at council).
+Do not claim capability parity across separate backend deployments or client surfaces. Use a distinctly named MCP server entry to target a second backend URL.
 
 ## Build & Run
 
+Requires Python 3.12+, `uv`, a checkout of this repository, and a reachable Logos API service. From the repository root:
+
 ```bash
-uv sync
+uv sync --locked
 uv run hapax-mcp          # stdio transport
 ```
 
-Configure in Claude Code `~/.claude/settings.json` under `mcpServers`.
+The process waits for JSON-RPC input over `stdio`; it does not start a Logos API server. Use the [README setup instructions](README.md#register-in-claude-code) to register it with an MCP client, then call `health` to verify backend connectivity.
 
 ## Project Structure
 
 ```
 src/hapax_mcp/
-  server.py      MCP server, 36 tool definitions
-  client.py      HTTP client for logos API (get/post/put/delete/post_sse)
+  server.py      MCP server, 38 tool definitions
+  client.py      HTTP client for Logos API (get/post/put/delete/post_sse)
   models/        Pydantic response models (health, infrastructure, profile, working_mode)
   __init__.py    Package init
-pyproject.toml   Project metadata, entry point
+tests/           pytest suite (test_tools.py, test_response_models.py)
+pyproject.toml   Project metadata and entry point
 ```
 
 ## Configuration
 
 | Env Var | Default | Purpose |
-|---------|---------|----------|
+|---------|---------|---------|
 | `LOGOS_BASE_URL` | `http://localhost:8051/api` | Logos API base URL |
+| `LOGOS_API_KEY` | unset | Optional bearer token forwarded to the backend |
 
-`COCKPIT_BASE_URL` and `COCKPIT_API_KEY` are accepted as fallbacks for backward compatibility.
+`COCKPIT_BASE_URL` and `COCKPIT_API_KEY` are accepted as fallbacks when the corresponding `LOGOS_*` variable is unset. Supply secrets through the deployment's secret manager; never commit token values.
 
-HTTP timeout: 15 seconds.
+Standard-request HTTPX timeout: 15 seconds.
 
-## Tools
+## Tools (38 registered)
 
-**Read-only (22):** health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, working_mode (canonical), cycle_mode (deprecated alias), profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual
+**Inspection via GET (22):** `health`, `health_history`, `briefing`, `scout`, `scout_decisions`, `drift`, `cost`, `goals`, `nudges`, `agents`, `gpu`, `infrastructure`, `working_mode` (canonical), `cycle_mode` (deprecated alias), `profile`, `profile_dimension`, `profile_pending`, `accommodations`, `copilot`, `readiness`, `workspace`, `manual`
 
-**Chronicle (2):** chronicle (query with since/until/source/event_type/trace_id/limit filters), chronicle_narrate (LLM-synthesized chronicle summary)
+**Chronicle (2):** `chronicle` (query with `since`/`until`/`source`/`event_type`/`trace_id`/`limit` filters), `chronicle_narrate` (GET requesting a backend LLM synthesis; can incur model work)
 
-**Write (10):** nudge_act, nudge_dismiss, working_mode_set (canonical), cycle_mode_set (deprecated alias), profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable
+**Write (10):** `nudge_act`, `nudge_dismiss`, `working_mode_set` (canonical), `cycle_mode_set` (deprecated alias), `profile_correct`, `profile_delete`, `profile_flush`, `scout_decide`, `accommodation_confirm`, `accommodation_disable`
 
-**Streaming (2):** query, query_refine — use SSE (collect text_delta/output events)
+**Query (2):** `query`, `query_refine` — POST to backend SSE endpoints and collect text into a single MCP tool response. Backend model configuration and usage costs apply.
 
-**Compound (2):** `status` = health + gpu + infrastructure + working_mode. `daily_summary` = briefing + nudges + goals + drift.
+**Compound (2):** `status` (`health` + `gpu` + `infrastructure` + `working_mode`), `daily_summary` (`briefing` + `nudges` + `goals` + `drift`).
 
-Mode values: `working_mode_set` and `cycle_mode_set` both accept `'research'`, `'rnd'`, or `'fortress'`. The legacy `'dev'` / `'prod'` values were never updated in MCP after the council `/cycle-mode` endpoint switched to `/working-mode` semantics — passing them was failing 422 server-side. Both tools now route to `/working-mode` under the hood.
+Mode values: the MCP schemas for `working_mode_set` and `cycle_mode_set` accept `research`, `rnd`, or `fortress`; a backend deployment may accept a narrower subset. Both route to `/working-mode`. Legacy `dev` / `prod` values are outside the MCP schema.
 
 ## Gotchas
 
-- **Response truncation:** Read-only tool responses truncated at 50,000 characters. SSE streams truncated at 1,000 chunks or 1 MiB total.
-- **SSE timeouts:** Per-event timeout: 30s (stream goes silent → abort). Overall SSE timeout: 120s.
-- **Path validation:** Tools accepting user path segments validate against `[a-zA-Z0-9_-]+` — invalid inputs raise ValueError.
-- **Error handling:** All errors caught and formatted via `_fmt_error()` — returns user-facing strings, not exceptions.
-- **API key optional:** Bearer auth only sent if `LOGOS_API_KEY` (or `COCKPIT_API_KEY` fallback) env var is set.
+- **Response truncation:** JSON-formatted results are truncated after 50,000 characters and may cease to be valid JSON. SSE collection stops after reaching 1,000 chunks or 1 MiB; the final chunk can cross the byte threshold.
+- **SSE timeouts:** HTTPX timeout is 120s and per-line wait is 30s; neither is a total stream-duration deadline.
+- **Path validation:** Tools accepting path segments validate against `[a-zA-Z0-9_-]+` and raise `ValueError` on invalid input.
+- **Error handling:** Handled HTTP status, connection, and timeout errors use `_fmt_error()`. Validation and other unhandled failures may surface as MCP tool errors; compound tools retain per-endpoint errors.
+- **External content notice:** The server emits a static warning that tool output may include untrusted external text; this warning is client guidance, not sanitization or authorization enforcement.
 
-## Dependencies
+## Verify the Source
 
-- mcp >= 1.26
-- httpx >= 0.28
-- pydantic >= 2.0
-- Python 3.12+
+From the repository root after `uv sync --locked`, inspect registered tools and implementation defaults without calling a backend:
 
-> Subject to the workspace CLAUDE.md rotation policy: `hapax-council/docs/superpowers/specs/2026-04-13-claude-md-excellence-design.md`.
+```bash
+uv run python - <<'PY'
+import asyncio
+import inspect
+
+from hapax_mcp import client, server
+
+tools = asyncio.run(server.mcp.list_tools())
+print(f"{len(tools)} tools:", ", ".join(tool.name for tool in tools))
+print("HTTP/SSE/next-line timeouts:", client._TIMEOUT, client._SSE_TIMEOUT, client._SSE_EVENT_TIMEOUT)
+print("JSON defaults:", inspect.signature(server._sanitize_response))
+print("SSE defaults:", inspect.signature(client.post_sse))
+print("Path pattern:", server._PATH_SEGMENT_RE.pattern)
+PY
+```
+
+Run the repository quality checks:
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+uv run pyright
+uv run pytest tests -q
+```
+
+Hosted CI definitions live in [.github/workflows/ci.yml](.github/workflows/ci.yml).

@@ -318,7 +318,7 @@ If the SSE stream errors, the tool returns `isError: true` with the error messag
   "mcpServers": {
     "cockpit": {
       "command": "uv",
-      "args": ["--directory", "/home/operator/projects/hapax-mcp", "run", "hapax-mcp"],
+      "args": ["--directory", "/path/to/hapax-mcp", "run", "hapax-mcp"],
       "env": {
         "COCKPIT_BASE_URL": "http://localhost:8051/api"
       }
@@ -332,7 +332,7 @@ If the SSE stream errors, the tool returns `isError: true` with the error messag
 ```bash
 claude mcp add --transport stdio --scope user \
   --env COCKPIT_BASE_URL=http://localhost:8051/api \
-  cockpit -- uv --directory /home/operator/projects/hapax-mcp run hapax-mcp
+  cockpit -- uv --directory /path/to/hapax-mcp run hapax-mcp
 ```
 
 User scope is recommended since cockpit is a system-level service, not project-specific.
@@ -473,7 +473,7 @@ MCP enables workflows that were impractical with curl:
 
 **Risk:** If the cockpit API is not running, all MCP tools fail.
 
-**Mitigation:** Each tool catches `httpx.ConnectError` and returns a clear error message: "Cockpit API not reachable at localhost:8051. Start it with: `cd ~/projects/hapax-council && uv run cockpit`". The `isError: true` flag ensures Claude Code treats this as a tool failure, not a valid empty response.
+**Mitigation:** Each tool catches `httpx.ConnectError` and returns a clear error message: "Cockpit API not reachable at localhost:8051. Start it with: starting the configured Logos API backend service". The `isError: true` flag ensures Claude Code treats this as a tool failure, not a valid empty response.
 
 ### Token Budget
 

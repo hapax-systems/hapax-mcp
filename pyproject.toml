@@ -1,14 +1,20 @@
 [project]
 name = "hapax-mcp"
 version = "0.1.0"
-description = "MCP server wrapping the hapax logos API"
+description = "Experimental Model Context Protocol stdio research tooling from Hapax Research Lab for Logos HTTP API deployments"
+readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
+authors = [{ name = "Hapax Research Lab", email = "hrl-han@hapaxresearch.com" }]
 dependencies = [
     "mcp>=1.26",
     "httpx>=0.28.1",
     "pydantic>=2.0",
 ]
+
+[project.urls]
+Homepage = "https://hapaxresearch.com"
+Repository = "https://github.com/hapax-systems/hapax-mcp"
 
 [project.scripts]
 hapax-mcp = "hapax_mcp.server:main"
