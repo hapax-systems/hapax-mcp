@@ -2,133 +2,138 @@
 
 # hapax-mcp
 
-`hapax-mcp` is an integration bridge for the Hapax Systems portfolio. It is maintained for MCP integration and inspection, not as a general-purpose framework.
+`hapax-mcp` is experimental research tooling from **Hapax Research Lab** ([hapaxresearch.com](https://hapaxresearch.com)). It provides a local Model Context Protocol (`stdio`) integration bridge for existing Logos HTTP API deployments and is not a general-purpose MCP framework.
 
 ## Reader promise
 
-MCP bridge exposing Hapax logos API state and actions to Claude Code and compatible MCP clients.
+Experimental MCP `stdio` bridge exposing Logos HTTP API state and bounded actions to Claude Code and compatible MCP clients.
 
 ## Reader value
 
-Gives MCP clients a bounded bridge to live Hapax state while keeping authority with the underlying APIs rather than the connector.
+Lets compatible MCP clients inspect state and invoke bounded endpoints against a separately running Logos API while keeping policy and authorization in the underlying backend.
 
 ## Claim ceiling
 
-Integration bridge only; not a general MCP framework and not an authority source beyond the underlying Hapax APIs.
+Experimental integration bridge only; requires an existing Logos API deployment, supplies no independent authorization layer, and is not a general-purpose MCP framework.
 
 ## License and rights
 
-Permissive integration bridge for MCP use; current copy must frame it as a Hapax logos bridge, not a general-purpose MCP library.
-
-Rendered summary: MIT. See `LICENSE`, `NOTICE.md`, `CITATION.cff`, and `.zenodo.json` for the authority surfaces.
+MIT License. See [LICENSE](LICENSE), [NOTICE.md](NOTICE.md), [CITATION.cff](CITATION.cff), and [.zenodo.json](.zenodo.json).
 
 ## Public boundary
 
-- Issues are redirect-only; no discussions, no pull requests accepted; see `CONTRIBUTING.md` and `SUPPORT.md`
-- Public copy must use `hapax-systems` organization links for first-party Hapax repositories.
-- Publication, weblog, RSS, social, DOI/archive, and other public fanout paths must route through the governed publication bus or a documented guarded legacy surface.
-- Governance reference: https://github.com/hapax-systems/hapax-constitution
-
-## Portfolio position
-
-MCP bridge. Consumes council and officium logos APIs over HTTP and presents bounded tools to Claude Code and compatible MCP clients. Authority remains with the underlying Hapax APIs.
+- Issues are redirect-only; no discussions and no unsolicited pull requests are accepted; see [CONTRIBUTING.md](CONTRIBUTING.md) and [SUPPORT.md](SUPPORT.md).
+- Security disclosures and factual correction proposals: [hrl-han@hapaxresearch.com](mailto:hrl-han@hapaxresearch.com) (see [SECURITY.md](SECURITY.md) and [hapaxresearch.com/about/#contact](https://hapaxresearch.com/about/#contact)).
+- Governance reference: [hapax-constitution](https://github.com/hapax-systems/hapax-constitution).
 
 <!-- hapax-sdlc:preamble:end -->
 
-## Description
+## Overview
 
-Model Context Protocol server (FastMCP, stdio transport) that exposes the Hapax logos HTTP APIs as MCP tools. The default endpoint is the council logos API at `http://localhost:8051/api`. Pointing `LOGOS_BASE_URL` at `http://localhost:8050/api` exposes the officium logos API instead.
+`hapax-mcp` is an experimental FastMCP (`stdio` transport) bridge developed by **Hapax Research Lab** that translates MCP tool calls into HTTP requests against a **separately running Logos API deployment**. Installing this repository installs only the local `stdio` bridge; it does not install, configure, or start a Logos backend runtime.
 
-The same logos data is reachable through three independent surfaces: the hapax-logos Tauri app, the VS Code extensions in [hapax-council](https://github.com/hapax-systems/hapax-council) and [hapax-officium](https://github.com/hapax-systems/hapax-officium), and this MCP server. Surface choice is operator preference; capability is identical across surfaces. Authority stays with the logos APIs; this repository is the bridge, not the policy source.
+By default, `hapax-mcp` targets `http://localhost:8051/api`. Set `LOGOS_BASE_URL` (for example `http://localhost:8050/api`) to target an alternative Logos API instance. Available endpoints and accepted parameters depend on the backend version and configuration; tool registration alone does not establish backend compatibility.
 
-## Tool surface (38 tools)
+This bridge provides neither an independent authorization policy nor a read-only mode: write tools are registered alongside inspection tools. The operator authorizes client tool invocations, and the configured backend API remains responsible for enforcing access and action policy.
 
-| Group | Count | Tools | Reader value |
-|-------|-------|-------|---|
-| Read-only | 22 | health, health_history, briefing, scout, scout_decisions, drift, cost, goals, nudges, agents, gpu, infrastructure, profile, profile_dimension, profile_pending, accommodations, copilot, readiness, workspace, manual, working_mode, cycle_mode | Gives MCP clients visibility into state without needing to own the underlying APIs. |
-| Chronicle | 2 | chronicle, chronicle_narrate | Lets a client inspect and summarize event history with the source window explicit. |
-| Write | 10 | nudge_act, nudge_dismiss, working_mode_set, cycle_mode_set, profile_correct, profile_delete, profile_flush, scout_decide, accommodation_confirm, accommodation_disable | Exposes bounded actions where the server-side Hapax API remains the authority. |
-| Streaming (SSE) | 2 | query, query_refine | Carries long-running query/refinement flows without turning the MCP bridge into a planner. |
-| Compound | 2 | status (health + gpu + infrastructure + working_mode), daily_summary (briefing + nudges + goals + drift) | Gives operator-facing summaries without requiring a client to reconstruct common views. |
+## Tool Surface (38 Registered Tools)
 
-`working_mode` and `working_mode_set` are canonical. `cycle_mode` and `cycle_mode_set` are deprecated aliases retained during the workspace-wide migration; both route through to `/working-mode` server-side. Accepted mode values: `research`, `rnd`, `fortress` (officium omits `fortress`). The legacy `dev` / `prod` values return 422 server-side.
+Defined in [src/hapax_mcp/server.py](src/hapax_mcp/server.py), including two deprecated aliases retained for backward compatibility:
 
-`chronicle` accepts filters `since`, `until`, `source`, `event_type`, `trace_id`, `limit`. `chronicle_narrate` produces an LLM synthesis of a chronicle window.
+| Group | Count | Tools | Purpose |
+|---|---|---|---|
+| Inspection (GET) | 22 | `health`, `health_history`, `briefing`, `scout`, `scout_decisions`, `drift`, `cost`, `goals`, `nudges`, `agents`, `gpu`, `infrastructure`, `profile`, `profile_dimension`, `profile_pending`, `accommodations`, `copilot`, `readiness`, `workspace`, `manual`, `working_mode`, `cycle_mode` | Inspects backend state over HTTP GET without transferring state ownership to the MCP client. |
+| Chronicle | 2 | `chronicle`, `chronicle_narrate` | Queries filtered event history (`since`, `until`, `source`, `event_type`, `trace_id`, `limit`) or requests a backend narrative synthesis. |
+| Write | 10 | `nudge_act`, `nudge_dismiss`, `working_mode_set`, `cycle_mode_set`, `profile_correct`, `profile_delete`, `profile_flush`, `scout_decide`, `accommodation_confirm`, `accommodation_disable` | Invokes bounded state-change endpoints governed by the backend API. |
+| Query (backend SSE) | 2 | `query`, `query_refine` | Streams backend query or refinement SSE output and returns a consolidated tool response. |
+| Compound | 2 | `status` (`health` + `gpu` + `infrastructure` + `working_mode`), `daily_summary` (`briefing` + `nudges` + `goals` + `drift`) | Aggregates common multi-endpoint status views into single calls. |
 
-## Install
+`working_mode` and `working_mode_set` are canonical; `cycle_mode` and `cycle_mode_set` are deprecated aliases routing to `/working-mode`. The MCP input schema accepts `research`, `rnd`, and `fortress` (individual backends may accept a narrower subset; legacy `dev` / `prod` values are rejected).
+
+`chronicle_narrate`, `query`, and `query_refine` can trigger model inference on the backend; backend provider configuration and usage limits apply.
+
+## Install from Source
+
+Prerequisites: Python 3.12+, [uv](https://docs.astral.sh/uv/getting-started/installation/), Git, and network reachability to a running Logos API instance.
 
 ```bash
-uv sync
+git clone https://github.com/hapax-systems/hapax-mcp.git
+cd hapax-mcp
+uv sync --locked
 uv run hapax-mcp
 ```
 
-Python 3.12+. Dependencies: `mcp>=1.26`, `httpx>=0.28.1`, `pydantic>=2.0`. Entry point: `hapax_mcp.server:main` (defined in `pyproject.toml`).
+`uv run hapax-mcp` launches a `stdio` JSON-RPC process intended to be spawned by an MCP client rather than used as an interactive CLI. After registering the server in your client, invoke the `health` tool to verify connectivity to `LOGOS_BASE_URL`.
+
+Dependencies: `mcp>=1.26`, `httpx>=0.28.1`, `pydantic>=2.0`. Entry point: `hapax_mcp.server:main` ([pyproject.toml](pyproject.toml)).
 
 ## Register in Claude Code
 
-Add to `~/.claude/settings.json` under `mcpServers`:
+From the project directory where you want the tools available, register the local `stdio` server using an absolute checkout path:
 
-```json
-{
-  "mcpServers": {
-    "hapax": {
-      "command": "uv",
-      "args": ["--directory", "/path/to/hapax-mcp", "run", "hapax-mcp"],
-      "env": {
-        "LOGOS_BASE_URL": "http://localhost:8051/api"
-      }
-    }
-  }
-}
+```bash
+claude mcp add --env LOGOS_BASE_URL=http://localhost:8051/api \
+  --transport stdio --scope local hapax \
+  -- uv --directory /absolute/path/to/hapax-mcp run hapax-mcp
 ```
 
-To bridge the officium API as well, register a second instance with `LOGOS_BASE_URL=http://localhost:8050/api`.
+Verify the saved client registration:
+
+```bash
+claude mcp get hapax
+```
+
+For shared project configuration, use `.mcp.json` rather than `~/.claude/settings.json`; see the [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp). To bridge a second Logos API deployment simultaneously, register a second instance under a distinct server name and `LOGOS_BASE_URL`.
 
 ## Configuration
 
 | Variable | Default | Purpose |
-|----------|---------|---------|
-| `LOGOS_BASE_URL` | `http://localhost:8051/api` | Logos API base URL |
-| `LOGOS_API_KEY` | unset | Optional bearer token; sent as `Authorization: Bearer …` if set |
-| `COCKPIT_BASE_URL` | unset | Backward-compatible fallback for `LOGOS_BASE_URL` |
-| `COCKPIT_API_KEY` | unset | Backward-compatible fallback for `LOGOS_API_KEY` |
+|---|---|---|
+| `LOGOS_BASE_URL` | `http://localhost:8051/api` | Target Logos API base URL |
+| `LOGOS_API_KEY` | unset | Optional bearer token sent as `Authorization: Bearer ...` when set |
+| `COCKPIT_BASE_URL` | unset | Legacy fallback when `LOGOS_BASE_URL` is unset |
+| `COCKPIT_API_KEY` | unset | Legacy fallback when `LOGOS_API_KEY` is unset |
 
-HTTP timeout: 15s for standard requests; 120s overall for SSE streams; 30s per-event timeout aborts a stalled stream. Response bodies are truncated at 50,000 characters; SSE streams are truncated at 1,000 chunks or 1 MiB total. Path segments accepted by tools are validated against `[a-zA-Z0-9_-]+`.
+Provide credentials through your environment's secret store; never commit API keys to configuration files.
 
-Errors are caught and formatted into user-facing strings via `_fmt_error()`; no exceptions are raised across the MCP boundary.
+## Limits and Error Handling
 
-## Project layout
+Configured in [src/hapax_mcp/client.py](src/hapax_mcp/client.py) and [src/hapax_mcp/server.py](src/hapax_mcp/server.py) (verifiable offline via [CLAUDE.md](CLAUDE.md#verify-the-source)):
+
+- **Timeouts:** 15s HTTPX timeout for standard requests; 120s HTTPX timeout and 30s per-line wait on SSE streams.
+- **Truncation:** JSON tool responses truncate after 50,000 characters (truncated payloads may not parse as complete JSON). SSE collection stops after 1,000 chunks or 1 MiB of accumulated text.
+- **Input validation:** Dynamic URL path segments are validated against `[a-zA-Z0-9_-]+`.
+- **Errors:** Handled HTTP status, connection, and timeout errors are formatted into readable text via `_fmt_error()`. Unhandled validation failures surface as MCP tool errors, and compound tools report per-endpoint failures inline.
+- **Untrusted output warning:** The server instructs clients that tool responses may contain external text and must not be treated as instructions.
+
+## Project Layout
 
 ```
 src/hapax_mcp/
-  server.py      MCP server, 38 tool definitions
-  client.py      HTTP client, env var contract, timeouts
+  server.py      MCP server and 38 tool definitions
+  client.py      HTTP/SSE client, environment contract, timeouts
   models/        Pydantic response models (health, infrastructure, profile, working_mode)
 tests/           pytest suite (test_tools.py, test_response_models.py)
-pyproject.toml   Package metadata, entry point, deps
+pyproject.toml   Package metadata, entry point, dependencies
 ```
 
-The server emits a static instruction warning that tool output may include content from external sources and should not be treated as instructions. This is consistent with the `interpersonal_transparency` axiom in the upstream constitution.
+## Continuous Integration
 
-## CI
+| Workflow | Trigger | Checks |
+|---|---|---|
+| `ci.yml` | push to `main`, pull request | `ruff check`, `ruff format --check`, `pyright`, `pytest`, `gitleaks`, `bandit`, and required `all-green` gate |
+| `semgrep.yml` | push to `main`, pull request, schedule | Static analysis (`semgrep ci`) |
+| `dependabot-auto-merge.yml` | Dependabot PR | Automated merge for passing patch/minor dependency updates |
 
-| Workflow | Trigger | Effect |
-|----------|---------|--------|
-| `ci.yml` | push main, PR | ruff check + format, pyright, gitleaks, bandit |
-| `auto-fix.yml` | CI failure on PR | Claude Code attempts a fix; max 3 attempts per branch |
-| `claude-review.yml` | PR open / sync | Claude Code review on the PR |
-| `dependabot-auto-merge.yml` | Dependabot PR | Auto-merge for patch / minor bumps |
+## Related Hapax Research Lab Surfaces
 
-## Related Repositories
-
-| Repository | Role |
-|-----------|------|
-| [hapax-council](https://github.com/hapax-systems/hapax-council) | Primary research artifact — voice daemon, grounding system, experiment infrastructure |
-| [hapax-constitution](https://github.com/hapax-systems/hapax-constitution) | Governance specification — axioms, implications, canons, precedents |
-| [hapax-officium](https://github.com/hapax-systems/hapax-officium) | Supporting software — management decision support |
-| [hapax-watch](https://github.com/hapax-systems/hapax-watch) | Wear OS biometric companion |
-| [hapax-phone](https://github.com/hapax-systems/hapax-phone) | Android health + context companion |
-| **hapax-mcp** (this repo) | MCP server bridging the logos APIs to Claude Code |
+| Surface | Role |
+|---|---|
+| [hapaxresearch.com](https://hapaxresearch.com) | Hapax Research Lab portal, research records, commitments register, and contact policy |
+| [reins](https://github.com/hapax-systems/reins) | Terminal cockpit for observing and previewing governed AI-agent delivery lifecycles (BSL 1.1) |
+| [hapax-constitution](https://github.com/hapax-systems/hapax-constitution) | Constitutional governance specification and `hapax-sdlc` enforcement tooling |
+| [hapax-spine](https://github.com/hapax-systems/hapax-spine) | Source-available runtime mechanism behind Reins (BSL 1.1) |
+| [hapax-research-ledger](https://github.com/hapax-systems/hapax-research-ledger) | Public-domain numeric evidence ledger (CC0-1.0) |
 
 ## License
 

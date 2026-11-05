@@ -2,27 +2,28 @@
   "@context": "https://w3id.org/codemeta/3.0",
   "@type": "SoftwareSourceCode",
   "name": "hapax-mcp",
-  "description": "Private MCP integration bridge for Hapax Systems logos APIs. Exposes governed Hapax API state and actions to Claude Code and compatible MCP clients without becoming a general-purpose MCP framework.",
+  "description": "Experimental Model Context Protocol stdio research tooling from Hapax Research Lab exposing Logos HTTP API state and bounded actions to compatible MCP clients.",
   "codeRepository": "https://github.com/hapax-systems/hapax-mcp",
-  "url": "https://github.com/hapax-systems/hapax-mcp",
-  "license": "https://spdx.org/licenses/MIT",
+  "url": "https://hapaxresearch.com",
+  "license": "https://opensource.org/licenses/MIT",
   "author": [
     {
       "@type": "Organization",
-      "name": "Hapax Systems",
-      "url": "https://github.com/hapax-systems"
+      "name": "Hapax Research Lab",
+      "email": "hrl-han@hapaxresearch.com",
+      "url": "https://hapaxresearch.com"
     }
   ],
-  "applicationCategory": "SoftwareLibrary",
-  "developmentStatus": "active",
+  "applicationCategory": "DeveloperApplication",
+  "developmentStatus": "experimental",
   "isAccessibleForFree": true,
   "keywords": [
     "research-software",
-    "single-operator",
-    "infrastructure-as-argument"
+    "model-context-protocol",
+    "ai-governance"
   ],
   "relatedLink": [
-    "https://github.com/hapax-systems/hapax-council",
-    "https://github.com/hapax-systems/hapax-officium"
+    "https://hapaxresearch.com",
+    "https://github.com/hapax-systems/hapax-constitution"
   ]
 }

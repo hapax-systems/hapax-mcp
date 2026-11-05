@@ -1,33 +1,16 @@
-# Custom gitleaks rules for PII detection
-title = "hapax PII rules"
+# Gitleaks configuration for hapax-mcp.
+title = "hapax-mcp"
 
-[[rules]]
-id = "operator-full-name"
-description = "Operator full name"
-regex = '(?i)Ryan\s+Kleeberger'
-tags = ["pii", "name"]
-[rules.allowlist]
-paths = ['hooks/', 'tests/', '\.gitleaks\.toml']
+[extend]
+useDefault = true
 
-[[rules]]
-id = "operator-location"
-description = "Operator location"
-regex = 'Minneapolis[- ]St\.?\s*Paul'
-tags = ["pii", "location"]
-[rules.allowlist]
-paths = ['hooks/', 'tests/', '\.gitleaks\.toml']
-
-[[rules]]
-id = "home-directory-path"
-description = "Home directory absolute path"
-regex = '/home/hapax/'
-tags = ["pii", "path"]
-[rules.allowlist]
-paths = ['.gitignore', 'CLAUDE\.md', 'hooks/', '\.claude/', '\.gitleaks\.toml']
-
-# Allow known false positives
-# CITATION.cff and .zenodo.json are formal-context citation/deposit metadata
-# that require the operator legal name per axiom-derived requires_legal_name
-# operational property (formal-address-required surfaces).
 [allowlist]
-paths = ['LICENSE', 'CITATION\.cff', '\.zenodo\.json', '\.gitleaksignore', 'node_modules/', '\.venv/']
+description = "Standard repository metadata and virtual environment paths"
+paths = [
+  'LICENSE',
+  'CITATION\.cff',
+  '\.zenodo\.json',
+  '\.gitleaksignore',
+  'node_modules/',
+  '\.venv/',
+]
