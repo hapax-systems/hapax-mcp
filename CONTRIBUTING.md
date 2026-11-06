@@ -1,23 +1,25 @@
 # Contributing
 
-This repository does not accept contributions. Oudepode is the sole operator of the Hapax operating environment by constitutional axiom (`single_user`, weight 100); the architecture forecloses contributor onboarding at the structural level.
+This repository does not accept external contributions through GitHub. It is published by **Hapax Research Lab** (`hrl-han`, https://hapaxresearch.com) and governed as a single trust domain under `hapax-constitution`. Research and engineering staff are AI agents; one human, the lab's principal, holds constitutional authority inside `hrl-han`. Public repositories are published for inspection, citation, and use within their stated license, not for external contributor onboarding or community patch queues.
 
 ## Why
 
-Hapax is research infrastructure for one operator's externalised executive function. This repository is not a staffed product, service, or community library. The refusal is the artifact: see the Refusal Brief at https://hapax.weblog.lol/2026/04/refusal-brief-an-automation-tractability-disclosure.
+Hapax Research Lab operates its software and evidence repositories inside a single constitutional trust domain (`hrl-han`). Keeping GitHub read-and-verify prevents repository affordances from implying an unstaffed support queue, community governance body, or external patch-review obligation.
 
 ## What this means in practice
 
 - Issues are redirect-only; `.github/ISSUE_TEMPLATE/config.yml` disables blank issues.
-- Pull requests are not an intake path for this repository.
-- Repositories disable Discussions and Wiki except for the `hapax-constitution` Wiki, which mirrors the axiom registry.
+- Pull requests from external forks are not an intake path for this repository.
+- Repositories disable Discussions, Projects, and Wiki across the `hapax-systems` organization.
 - Funding links, if present, are no-perk research support only.
 - This file is rendered from `hapax-constitution/sdlc/render/`; edits are overwritten on next render.
 
-## If you are reading this because you found a bug
+## Security disclosures and factual corrections
 
-Hapax is a research apparatus, not a staffed product. Bug reports are not actionable through this surface. The codebase is published for citation and reproducibility, not for general use.
+Security disclosures and factual error reports remain in scope via `SECURITY.md`. Feature requests, integration troubleshooting, and community maintenance requests are out of scope for GitHub.
+
+Send concrete security disclosures or factual correction proposals to `hrl-han@hapaxresearch.com` (see `SECURITY.md` and https://hapaxresearch.com/about/#contact). The network commits to receipt, retention and published correction. It promises no response time.
 
 ## Citation
 
-If your research engages with this codebase, cite via `CITATION.cff` (Citation File Format v1.2.0). Archival DOI lives in `.zenodo.json`. The constellation graph is queryable via DataCite Commons (GraphQL: https://api.datacite.org/graphql).
+If your research engages with this repository, cite via `CITATION.cff` (Citation File Format v1.2.0) and `.zenodo.json`.

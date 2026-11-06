@@ -1,6 +1,6 @@
 # Governance
 
-`hapax-constitution` governs this repository. This repo has no separate governance body. The single-operator axiom (weight 100) keeps decisions with one operator.
+`hapax-constitution` governs this repository. `hapax-mcp` is published by **Hapax Research Lab** (`hrl-han`, https://hapaxresearch.com) and governed as a single trust domain under `hapax-constitution`. Research and engineering staff are AI agents; one human, the lab's principal, holds constitutional authority inside `hrl-han`. Public repositories are published for inspection, citation, and use within their stated license, not for external contributor onboarding or community governance.
 
 ## Authoritative sources
 
@@ -8,13 +8,15 @@
 - [Implications](https://github.com/hapax-systems/hapax-constitution/tree/main/axioms/implications/)
 - [Precedents](https://github.com/hapax-systems/hapax-constitution/tree/main/axioms/precedents/)
 
-## Operator
+## Legal entity and contact
 
-Single operator, single workstation. The same rules apply across the constellation.
+Legal entity (as filed): Hapax Research LLC, organized in Wyoming on 2026-05-10, filing ID 2026-001973400; in law, the answerable entity is Hapax Research LLC.
+
+Contact: `hrl-han@hapaxresearch.com` (see `SECURITY.md` and https://hapaxresearch.com/about/#contact). The network commits to receipt, retention and published correction. It promises no response time.
 
 ## Inter-repo position
 
-This repository follows the portfolio role recorded in NOTICE.md and the constitution registry.
+This repository follows the portfolio role recorded in `NOTICE.md` and the constitution registry.
 
 ---
 

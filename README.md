@@ -1,16 +1,17 @@
 <!-- hapax-sdlc:preamble:begin -->
+<!-- hapax-public:surface=github.repo.hapax-mcp.readme.preamble:begin -->
 
 # hapax-mcp
 
-`hapax-mcp` is experimental research tooling from **Hapax Research Lab** ([hapaxresearch.com](https://hapaxresearch.com)). It provides a local Model Context Protocol (`stdio`) integration bridge for existing Logos HTTP API deployments and is not a general-purpose MCP framework.
+`hapax-mcp` is an integration bridge in the **Hapax Research Lab** portfolio ([hapaxresearch.com](https://hapaxresearch.com)). It is maintained for MCP integration and inspection, not as a general-purpose framework.
 
 ## Reader promise
 
-Experimental MCP `stdio` bridge exposing Logos HTTP API state and bounded actions to Claude Code and compatible MCP clients.
+Experimental MCP stdio bridge exposing Logos HTTP API state and bounded actions to Claude Code and compatible MCP clients.
 
 ## Reader value
 
-Lets compatible MCP clients inspect state and invoke bounded endpoints against a separately running Logos API while keeping policy and authorization in the underlying backend.
+Lets compatible MCP clients inspect state and invoke bounded endpoints against a running Logos API while keeping policy and authorization in the underlying backend.
 
 ## Claim ceiling
 
@@ -18,14 +19,23 @@ Experimental integration bridge only; requires an existing Logos API deployment,
 
 ## License and rights
 
-MIT License. See [LICENSE](LICENSE), [NOTICE.md](NOTICE.md), [CITATION.cff](CITATION.cff), and [.zenodo.json](.zenodo.json).
+MIT-licensed integration bridge for MCP clients; requires a separately running Logos API backend and is not a general-purpose MCP framework.
+
+Rendered summary: MIT. See `LICENSE`, `NOTICE.md`, `CITATION.cff`, and `.zenodo.json` for the authority surfaces.
 
 ## Public boundary
 
-- Issues are redirect-only; no discussions and no unsolicited pull requests are accepted; see [CONTRIBUTING.md](CONTRIBUTING.md) and [SUPPORT.md](SUPPORT.md).
-- Security disclosures and factual correction proposals: [hrl-han@hapaxresearch.com](mailto:hrl-han@hapaxresearch.com) (see [SECURITY.md](SECURITY.md) and [hapaxresearch.com/about/#contact](https://hapaxresearch.com/about/#contact)).
-- Governance reference: [hapax-constitution](https://github.com/hapax-systems/hapax-constitution).
+- Issues are redirect-only; no discussions, no pull requests accepted; see `CONTRIBUTING.md` and `SUPPORT.md`
+- Published by **Hapax Research Lab** (`hrl-han`, [hapaxresearch.com](https://hapaxresearch.com)). Legal entity (as filed): Hapax Research LLC, organized in Wyoming on 2026-05-10, filing ID 2026-001973400.
+- Security disclosures and factual correction proposals: `hrl-han@hapaxresearch.com` (see `SECURITY.md` and [hapaxresearch.com/about/#contact](https://hapaxresearch.com/about/#contact)). The network commits to receipt, retention and published correction. It promises no response time.
+- Public copy uses `hapax-systems` organization links for first-party repositories; README text is orientation rather than a live runtime receipt.
+- Governance reference: https://github.com/hapax-systems/hapax-constitution
 
+## Portfolio position
+
+Logos MCP Bridge. Translates MCP stdio tool calls into HTTP requests against a separately running Logos API deployment while keeping policy and authorization in the underlying backend.
+
+<!-- hapax-public:surface=github.repo.hapax-mcp.readme.preamble:end -->
 <!-- hapax-sdlc:preamble:end -->
 
 ## Overview
@@ -138,3 +148,7 @@ pyproject.toml   Package metadata, entry point, dependencies
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+*HACA-C v0.3.15, the lab's draft rule for labelling machine-made text, not an external certification. No request to a natural person to approve the final wording, and no such approval, was found in hrl-han's sending, review and coordination records when the text was released. hrl-han releases a text once its checking is complete, under a standing rule that hrl-han's principal, who is not named in this text, adopted before the text was drafted. Review record: https://hapaxresearch.com/review-record/ (open to anyone). This label records how the text was made; it does not certify that the text is true. An unaltered record can contain false claims or miss relevant events.*

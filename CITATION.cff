@@ -1,17 +1,17 @@
 cff-version: 1.2.0
-message: If you use this software in your research, please cite it as below.
+message: If you cite this repository or its artifacts in research, please cite it
+  as below.
 type: software
 title: hapax-mcp
-abstract: Experimental Model Context Protocol stdio research tooling from Hapax Research
-  Lab exposing Logos HTTP API state and bounded actions to compatible MCP clients.
+abstract: MCP bridge exposing Hapax Research Lab's Logos API state and actions to
+  MCP clients. An integration bridge, not a general-purpose MCP framework. MIT.
 authors:
 - name: Hapax Research Lab
   email: hrl-han@hapaxresearch.com
   website: https://hapaxresearch.com
 repository-code: https://github.com/hapax-systems/hapax-mcp
-url: https://hapaxresearch.com
+url: https://github.com/hapax-systems/hapax-mcp
 license: MIT
 keywords:
 - research-software
-- model-context-protocol
-- ai-governance
+- infrastructure-as-argument
