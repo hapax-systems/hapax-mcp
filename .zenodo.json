@@ -1,6 +1,6 @@
 {
   "title": "hapax-mcp",
-  "description": "Experimental Model Context Protocol stdio research tooling from Hapax Research Lab exposing Logos HTTP API state and bounded actions to compatible MCP clients.",
+  "description": "MCP bridge exposing Hapax Research Lab's Logos API state and actions to MCP clients. An integration bridge, not a general-purpose MCP framework. MIT.",
   "creators": [
     {
       "name": "Hapax Research Lab"
@@ -11,18 +11,17 @@
   "upload_type": "software",
   "keywords": [
     "research-software",
-    "model-context-protocol",
-    "ai-governance"
+    "infrastructure-as-argument"
   ],
   "related_identifiers": [
     {
-      "identifier": "https://hapaxresearch.com",
+      "identifier": "https://github.com/hapax-systems/hapax-constitution",
       "relation": "isPartOf",
       "scheme": "url"
     },
     {
-      "identifier": "https://github.com/hapax-systems/hapax-constitution",
-      "relation": "isSupplementedBy",
+      "identifier": "https://hapaxresearch.com",
+      "relation": "isSupplementTo",
       "scheme": "url"
     }
   ]
